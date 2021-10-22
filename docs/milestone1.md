@@ -116,3 +116,5 @@ return deriv
 Any other trigonometric functions such as cos(), tan(), arctan(), etc or needed elementary functions will be added as functions similarly. Furthermore each function will check if the input is a scalar and vector and the function will have its implementation adjusted accordingly.
 
 ## Licensing
+
+We chose the MIT license to license our software. The MIT license is one of the most permissive software licenses and allows us to use it for commercial purposes and monetize our software if we ever choose to. Lastly, with this license, others can’t claim our work as theirs and we cannot be held liable for any implications of our software.
