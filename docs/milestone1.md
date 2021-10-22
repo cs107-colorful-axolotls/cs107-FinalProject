@@ -1,9 +1,20 @@
 # Milestone 1
 
 ## Introduction
+Differentiation is one of the most important operations in science. A derivative measures the sensitivity of change of the output of a function with respect to changes in its input. Derivatives can be calculated symbolically using calculus rules like chain rule, product rule, quotient rule etc. Symbolically evaluating the derivative ensures accuracy, but these calculations can be costly and might not work for certain functions.  We can use numerical methods like the Finite-Difference method to overcome these problems. However, due to round off error, and possible numerical instability, numerical methods might also not be a good choice. Automatic Differentiation (AD) is less costly than symbolic differentiation, and unlike numerical methods, evaluates derivatives to machine precision. Thus, AD is a good choice for most software that requires differentiation.
 
 ## Background
+The basic idea of AD is that we can represent complicated functions as a sequence of elementary functions and arithmetic operations. Thus, we can solve complicated derivatives by evaluating their simple components in a step by step manner. AD relies on the chain rule, which gives us a way to calculate the derivative of a compound function. To organize the flow of AD we introduce a graph structure.
+Consider the simple one variable function f = sin(x2) + x. We can construct the following graph structure to represent the steps needed to evaluate this derivative.
 
+<img src="figures/m1_1.png"/>
+
+Here, each intermediate result is a node in the graph. The nodes are linked together either by arithmetic operations or by elementary functions.
+If we want to evaluate the derivative of the function, we can just work through each node in the graph. Suppose we wanted to evaluate the derivative of f = sin(x2) + x at 1, we can construct the following table to calculate the derivative step by step.
+
+<img src="figures/m1_2.png"/>
+
+Note that the value highlighted in yellow is exactly 2x cos(x2) + 1 for x = 1 (what we would get if we evaluated this derivative symbolically. This method of automatic differentiation is known as Forward Mode Automatic Differentiation and can be extended to higher dimensions.
 ## How to Use _PackageName_
 
 ## Software Organization
