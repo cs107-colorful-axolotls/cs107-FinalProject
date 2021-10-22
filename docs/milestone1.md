@@ -66,4 +66,53 @@ This is only a preliminary design. As with all software engineering projects, th
 
 ## Implementation
 
+What are the core data structures?
+
+The core data structure of our software will be an implementation of dual numbers. Recall that a dual number consists of a real part and dual part,
+z = a + b epsilon
+Where a and b are reals and epsil is a number such that ep^2=0.
+In our software, a dual number will be represented as a Dual class whose properties will hold the real and dual part. In forward auto differentiation, a data structure with these properties will allow a primal trace and its tangent trace to be evaluated and stored at the same time. The “real part” property would store the primal trace and the “dual part” would store the tangent trace. The more foundational data structures that will be used are dictionaries, tuples, and arrays (Python/NumPy).
+ 
+What classes will you implement?
+
+As mentioned above, if we want to implement dual numbers, it will be implemented as a new data structure by creating a Dual class. This class will allow the storing and retrieving of the primal trace and tangent trace. 
+
+An automatic differentiation class, AutoDiff, will also be needed to perform the actual differentiation. The forward and reverse mode will either be implemented as subclasses or as separate classes. 
+What method and name attributes will your classes have?
+This methods and attributes of the auto differentiation class will have the following attributes and methods:
+
+__init__: Initializes the class instance with its variables
+derivative(): Find the derivative of of the function
+evaluate(): Evaluates the function and derivative at a given point
+
+What external dependencies will you rely on?
+
+Our implementation will rely on:
+math: Access to mathematical functions that are not built-in such as sin, cos, exp, etc
+Numpy: Access to numpy arrays, matrices, and linear algebra operations
+SciPy: Gives a pre-built differentiator to compare our software’s accuracy against
+MatPlotLib (Optional): Can be used to visualize functions and their evaluation points
+
+How will you deal with elementary functions like sin, sqrt, log, and exp (and all the others)?
+
+Many of these elementary functions are not built in Python, so our software is relying on dependencies such as math and Numpy to get access to and use them. Elementary functions like sin, sqrt, log, and exp will be defined and evaluated in a separate module. Examples are as follows (v_deriv denotes the derivative of v and is an auto differentiation object):
+
+def sin():
+deriv = np.cos(v) * v_deriv
+return deriv
+
+def sqrt():
+deriv = 0.5 * (1/(np.sqrt(v))) * v_deriv
+return deriv
+
+def log():
+deriv = (1/v) * v_deriv
+return deriv
+
+def exp():
+deriv = np.exp(v) * v_deriv
+return deriv
+
+Any other trigonometric functions such as cos(), tan(), arctan(), etc or needed elementary functions will be added as functions similarly. Furthermore each function will check if the input is a scalar and vector and the function will have its implementation adjusted accordingly.
+
 ## Licensing
