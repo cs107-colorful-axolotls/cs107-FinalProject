@@ -17,6 +17,24 @@ If we want to evaluate the derivative of the function, we can just work through 
 Note that the value highlighted in yellow is exactly 2x cos(x2) + 1 for x = 1 (what we would get if we evaluated this derivative symbolically. This method of automatic differentiation is known as Forward Mode Automatic Differentiation and can be extended to higher dimensions.
 ## How to Use _PackageName_
 
+Git clone the package repository into the working directory with git clone …
+
+Install the required dependencies for this package using pip install requirements.txt -r
+
+Import the package using “import autodiffer”
+
+Use documentation to get code explanations and code examples to quickly get started
+
+Instantiating AD Objects:
+```
+import autodiffer as ad
+import numpy as np
+ad_cos = ad(np.sin())
+ad_cos.derivative()
+value, derivative_eval  = ad_cos.evaluate(np.pi)
+# value = 0, derivative_eval = -1
+```
+
 ## Software Organization
 
 #### Directory Structure
