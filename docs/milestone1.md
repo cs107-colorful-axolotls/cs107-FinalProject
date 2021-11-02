@@ -145,7 +145,11 @@ def exp():
     return deriv
 ```
 
-Any other trigonometric functions such as `cos()`, `tan()`, `arctan()`, or needed elementary functions will be added as functions similarly. Furthermore each function will check if the input is a scalar and vector and the function will have its implementation adjusted accordingly. At the most basic level, the chain rule can be thought of as the product of the derivative of an "outer function" and the derivative of an "inner function." Notice how the implementations of the elementary functions utilize a v_deriv variable. This variable is analogous to the derivative of the inner term in calculating a derivative by the chain rule. For example, by the chain rule, the the derivative of $log(x^2)$ with respect to $x$ is $\frac{1}{x^2}*x'$. Although it is obvious that $x' = 2x $ when calculating the derivative with respect to $x$, this step needs explicity implemented. This is because the $x'$ is ultimately the derivative of another expression. Therefore, v_deriv serves as a way to store the derivative of the "inner function" and its evaluation. In forward auto differentiation, v_deriv is storing the tangent trace of the inner function.
+Any other trigonometric functions such as `cos()`, `tan()`, `arctan()`, or needed elementary functions will be added as functions similarly. Furthermore each function will check if the input is a scalar and vector and the function will have its implementation adjusted accordingly.
+
+#### Calcuating `v_deriv`
+
+At the most basic level, the chain rule can be thought of as the product of the derivative of an "outer function" and the derivative of an "inner function." Notice how the implementations of the elementary functions utilize a `v_deriv` variable. This variable is analogous to the derivative of the inner term in calculating a derivative by the chain rule. For example, by the chain rule, the the derivative of ![equation](https://latex.codecogs.com/png.latex?%5Clog%7B%28x%5E2%29%7D) with respect to ![equation](https://latex.codecogs.com/png.latex?x) is ![equation](https://latex.codecogs.com/png.latex?%5Cinline%20%5Cfrac%7B1%7D%7Bx%5E2%7D%5Ccdot%20x%27). Although it is obvious that ![equation](https://latex.codecogs.com/png.latex?x%27%3D2x) when calculating the derivative with respect to ![equation](https://latex.codecogs.com/png.latex?x), this step needs explicity implemented. This is because the ![equation](https://latex.codecogs.com/png.latex?x') is ultimately the derivative of another expression. Therefore, `v_deriv` serves as a way to store the derivative of the "inner function" and its evaluation. In forward auto differentiation, `v_deriv` is storing the tangent trace of the inner function.
 
 ## Licensing
 
@@ -153,6 +157,8 @@ We chose the MIT license to license our software. The MIT license is one of the 
 
 ## Feedback
 
-Great work! I really liked the clarity you showed in the introduction and background sections, and the level of detail you showed in the "How to use" section. I appreciate that you took the time to think through some basic pseudocode in the implementation section. I think what is key there is to understand how the v_deriv variable will be calculated. If you could add some more information related to that (think about the computational graph), then that will be a great addition. Overall, a great start to what will hopefully be a great project!
+Great work! I really liked the clarity you showed in the introduction and background sections, and the level of detail you showed in the "How to use" section. I appreciate that you took the time to think through some basic pseudocode in the implementation section. I think what is key there is to understand how the `v_deriv` variable will be calculated. If you could add some more information related to that (think about the computational graph), then that will be a great addition. Overall, a great start to what will hopefully be a great project!
 
 Score: 15/15
+
+Response: Thank you for the feedback! We added some more information about how to calculate `v_deriv` in a subsection called "Calcuating `v_deriv`" in the "implementation" section.
