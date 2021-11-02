@@ -150,3 +150,7 @@ Any other trigonometric functions such as `cos()`, `tan()`, `arctan()`, or neede
 ## Licensing
 
 We chose the MIT license to license our software. The MIT license is one of the most permissive software licenses and allows us to use it for commercial purposes and monetize our software if we ever choose to. Lastly, with this license, others can’t claim our work as theirs and we cannot be held liable for any implications of our software.
+
+## Feedback
+
+Great work! I really liked the clarity you showed in the introduction and background sections, and the level of detail you showed in the "How to use" section. I appreciate that you took the time to think through some basic pseudocode in the implementation section. I think what is key there is to understand how the v_deriv variable will be calculated. If you could add some more information related to that (think about the computational graph), then that will be a great addition. Overall, a great start to what will hopefully be a great project!
