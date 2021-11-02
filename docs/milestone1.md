@@ -97,7 +97,7 @@ This is only a preliminary design. As with all software engineering projects, th
 
 The core data structure of our software will be an implementation of dual numbers. Recall that a dual number consists of a real part and dual part,
 ![equation](https://latex.codecogs.com/png.latex?z=a+b\epsilon)
-Where ![equation](https://latex.codecogs.com/png.latex?a) and ![equation](https://latex.codecogs.com/png.latex?b) are reals and epsilon is a number such that ![equation](https://latex.codecogs.com/png.latex?\epsilon&space;p^2=0).
+Where ![equation](https://latex.codecogs.com/png.latex?a) and ![equation](https://latex.codecogs.com/png.latex?b) are reals and epsilon is a number such that ![equation](https://latex.codecogs.com/png.latex?\epsilon^2=0).
 
 In our software, a dual number will be represented as a `Dual` class whose properties will hold the real and dual part. In forward auto differentiation, a data structure with these properties will allow a primal trace and its tangent trace to be evaluated and stored at the same time. The “real part” property would store the primal trace and the “dual part” would store the tangent trace. The more foundational data structures that will be used are dictionaries, tuples, and arrays (Python/NumPy).
  
@@ -145,7 +145,7 @@ def exp():
     return deriv
 ```
 
-Any other trigonometric functions such as `cos()`, `tan()`, `arctan()`, or needed elementary functions will be added as functions similarly. Furthermore each function will check if the input is a scalar and vector and the function will have its implementation adjusted accordingly.
+Any other trigonometric functions such as `cos()`, `tan()`, `arctan()`, or needed elementary functions will be added as functions similarly. Furthermore each function will check if the input is a scalar and vector and the function will have its implementation adjusted accordingly. At the most basic level, the chain rule can be thought of as the product of the derivative of an "outer function" and the derivative of an "inner function." Notice how the implementations of the elementary functions utilize a v_deriv variable. This variable is analogous to the derivative of the inner term in calculating a derivative by the chain rule. For example, by the chain rule, the the derivative of $log(x^2)$ with respect to $x$ is $\frac{1}{x^2}*x'$. Although it is obvious that $x' = 2x $ when calculating the derivative with respect to $x$, this step needs explicity implemented. This is because the $x'$ is ultimately the derivative of another expression. Therefore, v_deriv serves as a way to store the derivative of the "inner function" and its evaluation. In forward auto differentiation, v_deriv is storing the tangent trace of the inner function.
 
 ## Licensing
 
