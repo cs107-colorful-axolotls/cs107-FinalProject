@@ -161,4 +161,4 @@ Great work! I really liked the clarity you showed in the introduction and backgr
 
 Score: 15/15
 
-Response: Thank you for the feedback! We added some more information about how to calculate `v_deriv` in a subsection called "Calcuating `v_deriv`" in the "implementation" section.
+Response: Thank you for the feedback! We added some more information about how to calculate `v_deriv` in a subsection called "Calculating `v_deriv`" in the "implementation" section.
