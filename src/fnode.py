@@ -1,7 +1,6 @@
 class Fnode:
-   
 
-    def __init__(self, val, deriv):
+    def __init__(self, val, deriv=1):
         """Constructor for Node for Forward Automatic differentiaton. 
 
         Parameters
