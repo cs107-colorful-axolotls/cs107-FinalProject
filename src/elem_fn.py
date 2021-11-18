@@ -21,7 +21,7 @@ def log(x, base):
 
 def sqrt(x):
     try:
-        if x._val <= 0:
+        if x._val < 0:
             raise ValueError("sqrt is not real for negative numbers")
         return Fnode(x._val**0.5, 0.5 * x._val**-0.5 * x._deriv)
     except AttributeError:  # This is not a Fnode
