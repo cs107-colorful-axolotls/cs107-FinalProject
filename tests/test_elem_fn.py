@@ -10,6 +10,8 @@ def test_ln():
         assert v_1.val == np.log(2), "ln function gave wrong value"
         assert v_1.deriv == 0.5, "ln function gave wrong derivative"
         assert elem.ln(1) == 0, "ln function not working for non Fnodes"
+        with pytest.raises(ValueError):
+            elem.ln(Fnode(-1))
     except AssertionError as e:
         print(e)
         raise AssertionError
@@ -21,6 +23,8 @@ def test_log():
         assert v_1.val == np.log10(100), "log function gave wrong value"
         assert v_1.deriv == 1/(100*np.log(10)), "log function gave wrong derivative"
         assert elem.log(100,10) == 2, "log function not working for non Fnodes"
+        with pytest.raises(ValueError):
+            elem.log(Fnode(-1), 10)
     except AssertionError as e:
         print(e)
         raise AssertionError
@@ -32,6 +36,8 @@ def test_sqrt():
         assert v_1.val == 2, "sqrt function gave wrong value"
         assert v_1.deriv == 0.5 * 4**-0.5, "sqrt function gave wrong derivative"
         assert elem.sqrt(4) == 2, "sqrt function not working for non Fnodes"
+        with pytest.raises(ValueError):
+            elem.sqrt(Fnode(-1))
     except AssertionError as e:
         print(e)
         raise AssertionError
