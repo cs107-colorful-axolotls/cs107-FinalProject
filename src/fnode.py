@@ -47,7 +47,10 @@ class Fnode:
         try:
             return Fnode(self._val + other.val, self._deriv + other.deriv)
         except AttributeError:
-            return Fnode(self._val + other, self._deriv + other)
+            return Fnode(self._val + other, self._deriv)
+    
+    def __radd__(self, other):
+        return self.__add__(other)
 
     def __sub__(self, other):
         """
@@ -63,7 +66,13 @@ class Fnode:
         try:
             return Fnode(self._val - other.val, self._deriv - other.deriv)
         except AttributeError:
-            return Fnode(self._val - other, self._deriv - other)
+            return Fnode(self._val - other, self._deriv)
+
+    def __rsub__(self, other):
+        try:
+            return Fnode(self._val - other.val, other.deriv - self._deriv)
+        except AttributeError:
+            return Fnode(other - self._val, -self._deriv)
       
     def __mul__(self, other):
         """
@@ -81,6 +90,9 @@ class Fnode:
         except AttributeError:
             other = Fnode(other, 0)
             return Fnode(self._val * other.val, self._val * other.deriv + other.val * self._deriv)
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
 
     def __truediv__(self, other):
         """

@@ -120,7 +120,7 @@ def sin(x):
     For values, the sin function evaluated at that value
     """
     try:
-        return Fnode(np.sin(x._val), np.cos(x._val))
+        return Fnode(np.sin(x._val), np.cos(x._val) * x._deriv)
     except AttributeError:
         return np.sin(x)
 

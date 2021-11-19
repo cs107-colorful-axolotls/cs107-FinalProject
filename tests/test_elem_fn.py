@@ -128,6 +128,13 @@ def test_tanh():
     assert v_1.deriv == 1 - np.tanh(v_0.val)**2
     assert elem.tanh(np.pi) == np.tanh(np.pi)
 
+def test_linear():
+    v_0 = Fnode(3.0, 1.0)
+    v_1 = elem.sin(3 * v_0 + 1)
+
+    assert v_1.val == np.sin(10.0)
+    assert v_1.deriv == 3 * np.cos(10.0)
+
 if __name__ == '__main__':
     test_cos()
     test_arccos()
@@ -141,3 +148,4 @@ if __name__ == '__main__':
     test_ln()
     test_log()
     test_sqrt()
+    test_linear()
