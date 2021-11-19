@@ -42,6 +42,31 @@ def test_sqrt():
         print(e)
         raise AssertionError
 
-test_ln()
-test_log()
-test_sqrt()
+def test_tan():
+    v_0 = Fnode(7.0, 1.0)
+    v_1 = elem.tan(v_0)
+
+    assert v_1.val == np.tan(v_0.val)
+    assert v_1.deriv == (1 / (np.cos(v_0.val)**2))
+
+def test_arctan():
+    v_0 = Fnode(7.0, 1.0)
+    v_1 = elem.arctan(v_0)
+
+    assert v_1.val == np.arctan(v_0.val)
+    assert v_1.deriv == (1 / (1 + v_0.val**2))
+
+def test_tanh():
+    v_0 = Fnode(7.0, 1.0)
+    v_1 = elem.tanh(v_0)
+
+    assert v_1.val == np.tanh(v_0.val)
+    assert v_1.deriv == 1 - np.tanh(v_0.val)**2
+
+if __name__ == '__main__':
+    test_tan()
+    test_arctan()
+    test_tanh()
+    test_ln()
+    test_log()
+    test_sqrt()
