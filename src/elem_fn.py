@@ -43,7 +43,7 @@ def cos(x):
 def arccos(x):
     try:
         if x._val > 1 or x._val < -1:
-            raise ValueError("The domain of arccosine is between -1 and 1 inclusive")
+            raise ValueError("The domain of arccos is between -1 and 1 inclusive")
         return Fnode(np.arccos(x._val), (-1 / (1 - x._val ** 2) ** 0.5) * x._deriv)
     except AttributeError:  # This is not a Fnode
         return np.arccos(x)

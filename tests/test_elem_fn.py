@@ -45,7 +45,34 @@ def test_sqrt():
         print(e)
         raise AssertionError
 
+def test_cos():
+    v_0 = Fnode(6.0, 1.0)
+    v_1 = elem.cos(v_0)
+
+    assert v_1.val == np.cos(v_0.val)
+    assert v_1.deriv == -1 * np.sin(v_0.val)
+
+def test_arccos():
+    v_0 = Fnode(0.5, 1.0)
+    v_1 = elem.arccos(v_0)
+
+    assert v_1.val == np.arccos(v_0.val)
+    assert v_1.deriv == (-1 / (1 - v_0.val ** 2) ** 0.5)
+
+    with pytest.raises(ValueError):
+        elem.arccos(Fnode(6.0, 1.0))
+
+def test_cosh():
+    v_0 = Fnode(6.0, 1.0)
+    v_1 = elem.cosh(v_0)
+
+    assert v_1.val == np.cosh(v_0.val)
+    assert v_1.deriv == np.sinh(v_0.val)
 
 test_ln()
 test_log()
 test_sqrt()
+
+test_cos()
+test_arccos()
+test_cosh()
