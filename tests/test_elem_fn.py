@@ -42,6 +42,18 @@ def test_sqrt():
         print(e)
         raise AssertionError
 
+
+def test_sin():
+    pass
+
+def test_sinh():
+    pass
+
+def test_arc_sin():
+    pass
+
 test_ln()
 test_log()
 test_sqrt()
+test_sin()
+test_arc_sin()
