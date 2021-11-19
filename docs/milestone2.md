@@ -33,6 +33,24 @@ value, derivative_eval  = ad_cos.evaluate(np.pi)
 # value = 0, derivative_eval = -1
 ```
 ## How to Use `autodiffer` (Post Milestone 2)
+1. Clone the package repository into your working directory with `git clone https://github.com/cs107-colorful-axolotls/cs107-FinalProject.git`
+2. Install the required dependencies for this package with `pip install -r requirements.txt`
+3. Import modules into your code
+
+Use documentation to get code explanations and code examples to quickly get started.
+
+Instantiating AD Objects and checking that they work:
+```python
+from fnode import Fnode
+import elem_fn as elem
+import numpy as np
+
+v_0 = Fnode(3.0, 1.0)
+v_1 = elem.sin(3 * v_0 + 1)
+
+assert v_1.val == np.sin(10.0)
+assert v_1.deriv == 3 * np.cos(10.0)
+```
 
 ## Software Organization
 
@@ -152,17 +170,57 @@ Any other trigonometric functions such as `cos()`, `tan()`, `arctan()`, or neede
 
 At the most basic level, the chain rule can be thought of as the product of the derivative of an "outer function" and the derivative of an "inner function." Notice how the implementations of the elementary functions utilize a `v_deriv` variable. This variable is analogous to the derivative of the inner term in calculating a derivative by the chain rule. For example, by the chain rule, the the derivative of ![equation](https://latex.codecogs.com/png.latex?%5Clog%7B%28x%5E2%29%7D) with respect to ![equation](https://latex.codecogs.com/png.latex?x) is ![equation](https://latex.codecogs.com/png.latex?%5Cinline%20%5Cfrac%7B1%7D%7Bx%5E2%7D%5Ccdot%20x%27). Although it is obvious that ![equation](https://latex.codecogs.com/png.latex?x%27%3D2x) when calculating the derivative with respect to ![equation](https://latex.codecogs.com/png.latex?x), this step needs explicity implemented. This is because the ![equation](https://latex.codecogs.com/png.latex?x') is ultimately the derivative of another expression. Therefore, `v_deriv` serves as a way to store the derivative of the "inner function" and its evaluation. In forward auto differentiation, `v_deriv` is storing the tangent trace of the inner function.
 
+#### Implementation Details (Post Milestone 2)
+* For this milestone, we did not need to support multiple functions or multiple inputs. Therefore, we did not need to use `numpy` arrays yet.
+* We ended up implementing an `Fnode` class, which contains nodes that store the value and derivative. We also overrode numerous dunders to give us the desired behavior when calculating the derivative. Here is an example:
+```python
+def __mul__(self, other):
+    """
+    Overloads multiplication
+
+    Parameters:
+    other: Value or Fnode to multiply against
+
+    Returns:
+    For Fnodes, a new Fnode object where the self and other Fnodes are multiplied according to the product rule for the value and derivative
+    For values, a new Fnode object where the self and other values are multiplied according to the product rule for the value and derivative
+    """
+    try:
+        return Fnode(self._val * other.val, self._val * other.deriv + other.val * self._deriv)
+    except AttributeError:
+        other = Fnode(other, 0)
+        return Fnode(self._val * other.val, self._val * other.deriv + other.val * self._deriv)
+```
+* We also implemented an `elem_fn` file that contains commonly used elementary functions and their derivatives. Here is an example:
+```python
+def tan(x):
+    """
+    Elementary function tan
+
+    Parameters:
+    x: Value or Fnode at which the tan function is to be evaluated
+
+    Returns:
+    For Fnodes, a new Fnode object with tan computed for the value and derivative
+    For values, the tan function evaluated at that value
+    """
+    try:
+        return Fnode(np.tan(x._val), (1 / (np.cos(x._val)**2)) * x._deriv)
+    except AttributeError:
+        return np.tan(x)
+```
+
 ## Future Features
-What aspects have you not implemented yet or plan to implement?
+#### What aspects have you not implemented yet or plan to implement?
 
 So far, our software only handles scalar functions of a single input. However, for many real-world applications, the handling of vector functions and multiple inputs is required. With forward mode completed, we are looking forward to implementing reverse mode of auto differentiation. Furthermore, we will continue to implement elementary functions as needed. 
 We are also thinking about implementing a root-finding algorithm like Newton's Method. Not only is this adding additional functionality to our software, our Newton's Method implementation can be used to test the main features of the auto differentiation software. 
 
-What will be the primary challenges to implementing these new features? 
+#### What will be the primary challenges to implementing these new features? 
 
 The primary challenge is implementing functionality for multiple inputs and vector functions. As of the single input, scalar implementation, the software is not using any extra datastructures or storing any partial derivatives. We will need to start thinking about how to store these vectors and partial derivatvies. Implementing root-finding algorithms such as Newton's method as extra features will require extra research and additional planning.
 
-How will your software change? 
+#### How will your software change? 
 
 As mentioned before, the greatest change in the software will be motivated by the addition of vector function functionality. This means we will need to implement a more robust jacobian method. As of now, the "jacobian method" has not been implemented as its method, but rather just the first order derivative of a scalar function. However, with the introduction of multiple variables and vector functions, we will need a jacobian method to handle the storage and evaluation of multivariable partial derivatives.
 
