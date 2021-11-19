@@ -24,9 +24,21 @@ class Fnode:
 
     def __pow__(self, other):
         try:
-            return Fnode(self._val**other.val, other_val*self._val**(other._val-1)*self._deriv)
+            return Fnode(self._val**other.val, other._val*self._val**(other._val-1)*self._deriv)
         except AttributeError:
             return Fnode(self._val**other, other*self._val**(other-1)*self._deriv)
 
     def __neg__(self):
         return Fnode(-self._val, -self._deriv)
+
+    def __add__(self, other):
+        try:
+            return Fnode(self._val+other.val, 1)
+        except AttributeError:
+            return Fnode(self._val+other, 1)
+
+    def __sub__(self, other):
+        try:
+            return Fnode(self._val-other.val, 1)
+        except AttributeError:
+            return Fnode(self._val+other, 1)

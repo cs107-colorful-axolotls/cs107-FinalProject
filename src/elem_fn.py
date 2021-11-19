@@ -26,3 +26,19 @@ def sqrt(x):
         return Fnode(x._val**0.5, 0.5 * x._val**-0.5 * x._deriv)
     except AttributeError:  # This is not a Fnode
         return np.sqrt(x)
+
+
+def sin(x):
+    return Fnode(np.sin(x._val), np.cos(x._val))
+
+def sinh(x):
+    return Fnode(np.sinh(x._val), np.cosh(x._val))
+
+def arc_sin(x):
+    try:
+        if x._val < -1 and x._val > 1: # range of valid values for arc_sin values is -1 ≤ x ≤ 1
+            raise ValueError("arc sin is only defined for values between and equal to -1 and 1")
+        return Fnode(np.arcsin(x._val), 1/(1-x._val**2))
+    except AttributeError:  # This is not a Fnode
+        return np.arcsin(x._val)
+
