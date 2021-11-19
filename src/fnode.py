@@ -24,9 +24,22 @@ class Fnode:
 
     def __pow__(self, other):
         try:
-            return Fnode(self._val**other.val, other_val*self._val**(other._val-1)*self._deriv)
+            return Fnode(self._val**other._val, other._val*self._val**(other._val-1)*self._deriv)
         except AttributeError:
             return Fnode(self._val**other, other*self._val**(other-1)*self._deriv)
 
     def __neg__(self):
         return Fnode(-self._val, -self._deriv)
+
+    def __mul__(self, other):
+        """
+        Overloads the multiplication dunder
+        """
+        try:
+            return Fnode(self._val * other._val, self._val * other._deriv + other._val * self._deriv)
+        except AttributeError:
+            other = Fnode(other, 0)
+            return Fnode(self._val * other._val, self._val * other._deriv + other._val * self._deriv)
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
