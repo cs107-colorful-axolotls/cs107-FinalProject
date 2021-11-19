@@ -4,13 +4,22 @@ from src.fnode import Fnode
 import numpy as np
 
 def tan(x):
-    pass
+    try:
+        return Fnode(np.tan(x._val), (1 / (np.cos(x._val)**2)) * x._deriv)
+    except AttributeError:
+        return np.tan(x)
 
 def arctan(x):
-    pass
+    try:
+        return Fnode(np.arctan(x._val), (1 / (1 + x._val**2)) * x._deriv)
+    except AttributeError:
+        return np.arctan(x)
 
 def tanh(x):
-    pass
+    try:
+        return Fnode(np.tanh(x._val), (1 - np.tanh(x._val)**2) * x._deriv)
+    except AttributeError:
+        return np.tanh(x)
 
 def ln(x):
     try:
