@@ -21,24 +21,45 @@ class Fnode:
     def val(self):
         return self._val
 
-    def __pow__(self, other):
-        try:
-            return Fnode(self._val ** other.val, other.val * self._val ** (other.val - 1) * self._deriv)
-        except AttributeError:
-            return Fnode(
-                self._val ** other, other * self._val ** (other - 1) * self._deriv
-            )
-
     def __neg__(self):
+        """
+        Overloads negation
+
+        Parameters:
+        x: Value or Fnode to negate
+
+        Returns:
+        A new Fnode object that where the value and derivative are both negated
+        """
         return Fnode(-self._val, -self._deriv)
 
     def __add__(self, other):
+        """
+        Overloads addition
+
+        Parameters:
+        other: Value or Fnode to add
+
+        Returns:
+        For Fnodes, a new Fnode object where the other is added to self for the value and derivative
+        For values, a new Fnode object where the other is added to self for the value and derivative
+        """
         try:
             return Fnode(self._val + other.val, self._deriv + other.deriv)
         except AttributeError:
             return Fnode(self._val + other, self._deriv + other)
 
     def __sub__(self, other):
+        """
+        Overloads subtraction
+
+        Parameters:
+        other: Value or Fnode to subtract
+
+        Returns:
+        For Fnodes, a new Fnode object where the other is subtracted from self for the value and derivative
+        For values, a new Fnode object where the other is subtracted from self for the value and derivative
+        """
         try:
             return Fnode(self._val - other.val, self._deriv - other.deriv)
         except AttributeError:
@@ -46,7 +67,14 @@ class Fnode:
       
     def __mul__(self, other):
         """
-        Overloads the multiplication dunder
+        Overloads multiplication
+
+        Parameters:
+        other: Value or Fnode to multiply against
+
+        Returns:
+        For Fnodes, a new Fnode object where the self and other Fnodes are multiplied according to the product rule for the value and derivative
+        For values, a new Fnode object where the self and other values are multiplied according to the product rule for the value and derivative
         """
         try:
             return Fnode(self._val * other.val, self._val * other.deriv + other.val * self._deriv)
@@ -55,11 +83,33 @@ class Fnode:
             return Fnode(self._val * other.val, self._val * other.deriv + other.val * self._deriv)
 
     def __truediv__(self, other):
+        """
+        Overloads division
+
+        Parameters:
+        other: Value or Fnode to divide against
+
+        Returns:
+        For Fnodes, a new Fnode object where the self and other Fnodes are divided according to the quotient rule for the value and derivative
+        For values, a new Fnode object where the self and other values are divided according to the quotient rule for the value and derivative
+        """
         try:
-            return Fnode(
-                self._val / other.val,
-                (self.deriv * other.val - self._val * other.deriv)
-                / (other.val ** 2),
-            )
+            return Fnode(self._val / other.val, (self.deriv * other.val - self._val * other.deriv) / (other.val ** 2))
         except AttributeError:
             return Fnode(self._val / other, self._deriv / other)
+
+    def __pow__(self, other):
+        """
+        Overloads exponentiation (powers)
+
+        Parameters:
+        other: Value or Fnode that represents the power to raise the current Fnode or value by
+
+        Returns:
+        For Fnodes, a new Fnode object where the self and other Fnodes are multiplied according to the power rule for the value and derivative
+        For values, a new Fnode object where the self and other values are multiplied according to the power rule for the value and derivative
+        """
+        try:
+            return Fnode(self._val ** other.val, other.val * self._val ** (other.val - 1) * self._deriv)
+        except AttributeError:
+            return Fnode(self._val ** other, other * self._val ** (other - 1) * self._deriv)

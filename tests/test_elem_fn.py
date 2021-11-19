@@ -1,7 +1,7 @@
 import pytest
 from src.fnode import Fnode
-import numpy as np
 import src.elem_fn as elem
+import numpy as np
 
 def test_ln():
     v_0 = Fnode(2)
@@ -83,6 +83,7 @@ def test_cos():
 
     assert v_1.val == np.cos(v_0.val)
     assert v_1.deriv == -1 * np.sin(v_0.val)
+    assert elem.cos(np.pi) == np.cos(np.pi)
 
 def test_arccos():
     v_0 = Fnode(0.5, 1.0)
@@ -90,6 +91,7 @@ def test_arccos():
 
     assert v_1.val == np.arccos(v_0.val)
     assert v_1.deriv == (-1 / (1 - v_0.val ** 2) ** 0.5)
+    assert elem.arccos(0) == np.arccos(0)
 
     with pytest.raises(ValueError):
         elem.arccos(Fnode(6.0, 1.0))
@@ -100,6 +102,7 @@ def test_cosh():
 
     assert v_1.val == np.cosh(v_0.val)
     assert v_1.deriv == np.sinh(v_0.val)
+    assert elem.cosh(0) == np.cosh(0)
 
 def test_tan():
     v_0 = Fnode(7.0, 1.0)
@@ -107,6 +110,7 @@ def test_tan():
 
     assert v_1.val == np.tan(v_0.val)
     assert v_1.deriv == (1 / (np.cos(v_0.val)**2))
+    assert elem.tan(np.pi) == np.tan(np.pi)
 
 def test_arctan():
     v_0 = Fnode(7.0, 1.0)
@@ -114,6 +118,7 @@ def test_arctan():
 
     assert v_1.val == np.arctan(v_0.val)
     assert v_1.deriv == (1 / (1 + v_0.val**2))
+    assert elem.arctan(np.pi) == np.arctan(np.pi)
 
 def test_tanh():
     v_0 = Fnode(7.0, 1.0)
@@ -121,6 +126,7 @@ def test_tanh():
 
     assert v_1.val == np.tanh(v_0.val)
     assert v_1.deriv == 1 - np.tanh(v_0.val)**2
+    assert elem.tanh(np.pi) == np.tanh(np.pi)
 
 if __name__ == '__main__':
     test_cos()

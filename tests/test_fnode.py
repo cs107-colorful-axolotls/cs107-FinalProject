@@ -1,6 +1,5 @@
 import pytest
 from src.fnode import Fnode
-import numpy as np
 
 def test_mul_const():
     v_0 = Fnode(10, 20)
