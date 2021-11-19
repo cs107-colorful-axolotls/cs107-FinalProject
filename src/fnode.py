@@ -42,9 +42,6 @@ class Fnode:
             other = Fnode(other, 0)
             return Fnode(self._val * other._val, self._val * other._deriv + other._val * self._deriv)
 
-    def __rmul__(self, other):
-        return self.__mul__(other)
-
     def __truediv__(self, other):
         try:
             return Fnode(
@@ -53,4 +50,4 @@ class Fnode:
                 / (other._val ** 2),
             )
         except AttributeError:
-            return Fnode(self._val / other, self._deriv)
+            return Fnode(self._val / other, self._deriv / other)
