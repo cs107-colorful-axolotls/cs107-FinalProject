@@ -92,6 +92,16 @@ cs107-FinalProject/
 
 * As a general rule, each milestone will have its own branch on the GitHub repository. When code is being implemented, each person will work off of their own branch, or branches. To merge code into the `main` branch, the group member will open a pull request and solicit code reviews and approvals before merging.
 
+#### Testing, Continuous Integration, and Devops (Post Milestone 2)
+
+* Per an announcement in class, and our own experience, Travis CI now requires a credit card to use. Therefore, the build quality checks are no longer being run.
+
+* To run tests, run the command `python -m pytest` in the root level of the folder.
+
+* To generate a code coverage report, run the command `python -m pytest --cov=./src` in the root level of the folder. We were able to achieve 100% coverage with our test cases.
+
+* We plan to switch over to Github Actions to setup our continuous integration in the future.
+
 #### Distribution
 
 We are planning on two methods of distributing our code.
