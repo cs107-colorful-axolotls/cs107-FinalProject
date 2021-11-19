@@ -2,6 +2,18 @@ import pytest
 from src.fnode import Fnode
 import numpy as np
 
+def test_mul_const():
+    v_0 = Fnode(10, 20)
+    v_1 = v_0 * 5
+    assert v_1.val == 50
+    assert v_1.deriv == 100
+
+def test_mul_obj():
+    v_0 = Fnode(2, 3)
+    v_1 = Fnode(5, 10)
+    res = v_0 * v_1
+    assert res.val == 10
+    assert res.deriv == 35
 
 def test_pow():
     v_0 = Fnode(2)
@@ -13,7 +25,6 @@ def test_pow():
         print(e)
         raise AssertionError
 
-
 def test_neg():
     v_0 = Fnode(1)
     v_1 = -v_0
@@ -23,7 +34,9 @@ def test_neg():
     except AssertionError as e:
         print(e)
         raise AssertionError
-
-
-test_pow()
-test_neg()
+        
+if __name__ == '__main__':
+    test_mul_const()
+    test_mul_obj()
+    test_pow()
+    test_neg()
