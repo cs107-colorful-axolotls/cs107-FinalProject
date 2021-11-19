@@ -42,6 +42,16 @@ def test_sqrt():
         print(e)
         raise AssertionError
 
-test_ln()
-test_log()
-test_sqrt()
+def test_tan():
+    pass
+
+def test_arctan():
+    pass
+
+def test_tanh():
+    pass
+
+if __name__ == '__main__':
+    test_ln()
+    test_log()
+    test_sqrt()

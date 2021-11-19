@@ -3,6 +3,15 @@
 from src.fnode import Fnode
 import numpy as np
 
+def tan(x):
+    pass
+
+def arctan(x):
+    pass
+
+def tanh(x):
+    pass
+
 def ln(x):
     try:
         if x._val <= 0:
