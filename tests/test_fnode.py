@@ -49,6 +49,16 @@ def test_pow():
         print(e)
         raise AssertionError
 
+def test_rpow():
+    v_0 = Fnode(3, 2)
+    v_1 = 3 ** v_0
+    try:
+        assert v_1.val == 27, "__rpow__ on fnode gave wrong value"
+        assert v_1.deriv == 0, "__rpow__ on fnode gave wrong derivative"
+    except AssertionError as e:
+        print(e)
+        raise AssertionError
+
 def test_neg():
     v_0 = Fnode(2, 3)
     v_1 = -v_0
@@ -109,4 +119,5 @@ if __name__ == '__main__':
     test_radd()
     test_sub()
     test_pow()
+    test_rpow()
     test_neg()

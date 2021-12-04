@@ -125,3 +125,6 @@ class Fnode:
             return Fnode(self._val ** other.val, other.val * self._val ** (other.val - 1) * self._deriv)
         except AttributeError:
             return Fnode(self._val ** other, other * self._val ** (other - 1) * self._deriv)
+
+    def __rpow__(self, other):
+        return Fnode(other ** self._val, 0)
