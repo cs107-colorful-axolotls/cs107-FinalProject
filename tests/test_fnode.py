@@ -1,5 +1,6 @@
 import pytest
 from src.fnode import Fnode
+import numpy as np
 
 def test_mul_const():
     v_0 = Fnode(10, 20)
@@ -54,7 +55,7 @@ def test_rpow():
     v_1 = 3 ** v_0
     try:
         assert v_1.val == 27, "__rpow__ on fnode gave wrong value"
-        assert v_1.deriv == 0, "__rpow__ on fnode gave wrong derivative"
+        assert v_1.deriv == np.log(3) * 3 ** 3, "__rpow__ on fnode gave wrong derivative"
     except AssertionError as e:
         print(e)
         raise AssertionError

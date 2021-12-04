@@ -1,3 +1,5 @@
+import numpy as np
+
 class Fnode:
     def __init__(self, val, deriv=1):
         """Constructor for Node for Forward Automatic differentiaton.
@@ -127,4 +129,4 @@ class Fnode:
             return Fnode(self._val ** other, other * self._val ** (other - 1) * self._deriv)
 
     def __rpow__(self, other):
-        return Fnode(other ** self._val, 0)
+        return Fnode(other ** self._val, np.log(other) * other ** (self._val))

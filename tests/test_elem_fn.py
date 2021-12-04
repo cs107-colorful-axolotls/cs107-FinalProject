@@ -135,6 +135,14 @@ def test_linear():
     assert v_1.val == np.sin(10.0)
     assert v_1.deriv == 3 * np.cos(10.0)
 
+def test_exp():
+    v_0 = Fnode(3.0, 1.0)
+    v_1 = elem.exp(v_0)
+
+    assert v_1.val == np.exp(3)
+    assert v_1.deriv == np.exp(3)
+    assert elem.exp(3) == np.exp(3)
+
 if __name__ == '__main__':
     test_cos()
     test_arccos()
@@ -149,3 +157,4 @@ if __name__ == '__main__':
     test_log()
     test_sqrt()
     test_linear()
+    test_exp()
