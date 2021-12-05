@@ -207,3 +207,19 @@ def cosh(x):
         return Fnode(np.cosh(x._val), np.sinh(x._val) * x._deriv)
     except AttributeError:  # This is not a Fnode
         return np.cosh(x)
+
+def exp(x):
+    """
+        Elementary function exp
+
+        Parameters:
+        x: Value or Fnode at which the exp function is to be evaluated
+
+        Returns:
+        For Fnodes, a new Fnode object with exp computed for the value and derivative
+        For values, the exp function evaluated at that value
+        """
+    try:
+        return Fnode(np.exp(x._val), np.exp(x._val) * x._deriv)
+    except AttributeError:  # This is not a Fnode
+        return np.exp(x)
