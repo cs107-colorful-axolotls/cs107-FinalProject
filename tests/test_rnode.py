@@ -37,8 +37,20 @@ def test_neg():
         print(e)
         raise AssertionError
 
+def test_add():
+    v_0 = Rnode(3)
+    v_1 = v_0 + 4
+    v_1.grad_value = 3
+    try:
+        assert v_1.val == 7, "__add__ on rnode gave wrong value"
+        assert v_0.grad() == 1, "__add__ on rnode gave wrong derivative"
+    except AssertionError as e:
+        print(e)
+        raise AssertionError
+
 
 if __name__ == '__main__':
     test_pow()
     test_rpow()
     test_neg()
+    test_add()

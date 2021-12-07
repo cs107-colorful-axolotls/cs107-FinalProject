@@ -72,3 +72,26 @@ class Rnode:
         z = Rnode(-self._val)
         self._children.append((-1, z))
         return z
+
+    
+    def __pos__(self, other):
+        """
+        Overloads addition
+
+        Parameters:
+        other: Value or Fnode to add
+
+        Returns:
+        For Rnodes, a new Rnode object where the other is added to self
+        For values, a new Rnode object where the other is added to self
+        """
+        try:
+            z = Rnode(self._val + other.val)
+            self._children.append((1, z)) #might need to fix
+        except AttributeError:
+            z = Rnode(self._val + other)
+            self._children.append((1, z)) 
+        return z
+
+
+    
