@@ -38,7 +38,47 @@ def test_neg():
         raise AssertionError
 
 
+def test_add():
+    pass
+
+
+def test_radd():
+    pass
+
+
+def test_sub():
+    pass
+
+
+def test_rsub():
+    pass
+
+
+def test_mul():
+    pass
+
+
+def test_rmul():
+    pass
+
+
+def test_truediv():
+    pass
+
+
+def test_rtruediv():
+    pass
+
+
 if __name__ == '__main__':
     test_pow()
     test_rpow()
     test_neg()
+    test_add()
+    test_radd()
+    test_sub()
+    test_rsub()
+    test_mul()
+    test_rmul()
+    test_truediv()
+    test_rtruediv()
