@@ -1,7 +1,7 @@
 from src.fnode import Fnode
 import numpy as np
 
-"""Elementary functions"""
+"""Elementary functions for forward mode"""
 
 def tan(x):
     """
