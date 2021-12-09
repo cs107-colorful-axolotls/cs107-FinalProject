@@ -1,5 +1,4 @@
 import numpy as np
-from numpy.lib.arraysetops import isin
 
 
 class Rnode:
@@ -30,6 +29,7 @@ class Rnode:
             self.grad_value = sum(weight * rnode.grad() for weight, rnode in self._children)
         return self.grad_value
 
+
     @property
     def val(self):
         return self._val
@@ -55,10 +55,12 @@ class Rnode:
             self._children.append((other * self._val ** (other - 1), z))
         return z
 
+
     def __rpow__(self, other):
         z = Rnode(other ** self._val)
         self._children.append(( np.log(other) * other ** (self._val), z))
         return z
+
 
     def __neg__(self):
         """
@@ -75,19 +77,14 @@ class Rnode:
         return z
 
 
-    def transform(self, a, b):
-        if isinstance(b, float) or isinstance(b, int):
-            b = Rnode([b] * len(a._val))
-
-        return b
-
-
     def __add__(self, other):
-        other = self.transform(self, other)
-        z = Rnode(self._val + other._val)
-        self._children.append((np.ones(self._val.shape), z))
-        other._children.append((np.ones(self._val.shape), z))
-        return z
+        if isinstance(other, (int, float)):
+            return Rnode(self._val + other)
+        else:
+            z = Rnode(self._val + other._val)
+            self._children.append((np.ones(self._val), z))
+            other._children.append((np.ones(self._val), z))
+            return z
 
 
     def __radd__(self, other):
@@ -95,15 +92,17 @@ class Rnode:
 
 
     def __sub__(self, other):
-        other = self.transform(self, other)
-        z = Rnode(self._val - other._val)
-        self._children.append((np.ones(self._val.shape), z))
-        other._children.append((np.ones(self._val.shape), z))
-        return z
+        if isinstance(other, (int, float)):
+            return Rnode(self._val - other)
+        else:
+            z = Rnode(self._val - other._val)
+            self._children.append((np.ones(self._val), z))
+            other._children.append((np.ones(self._val), z))
+            return z
 
 
     def __rsub__(self, other):
-        return self - other
+        return Rnode(other - self._val)
 
         
     def __mul__(self, other):
@@ -117,10 +116,13 @@ class Rnode:
         For Fnodes, a new Rnode object where the self and other Rnodes are multiplied according to the product rule
         For values, a new Rnode object where the self and other values are multiplied according to the product rule
         """
-        self.transform(self, other)
-        z = Rnode(self._val * other._val)
-        self._children.append((other._val, z))
-        other._children.append((self._val, z))
+        if isinstance(other, (int, float)):
+            return Rnode(self._val * other)
+        else:
+            z = Rnode(self._val * other._val)
+            self._children.append((other._val, z))
+            other._children.append((self._val, z))
+            return z
 
     
     def __rmul__(self, other):
