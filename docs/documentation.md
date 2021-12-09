@@ -20,9 +20,57 @@ Note that the value highlighted in yellow is exactly ![equation](https://latex.c
 
 ## How to Use Our Package
 ### How to install 
+
+#### Installation via GitHub
+1. Clone the package repository into your working directory with `git clone https://github.com/cs107-colorful-axolotls/cs107-FinalProject.git`
+2. Install the required dependencies for this package with `pip install -r requirements.txt`
+3. Import modules into your code
+
+Use documentation to get code explanations and code examples to quickly get started.
+
+#### Installation via PyPi
+TODO: add once package is on PyPi
+
 ### Demo
+Instantiating AD Objects and checking that they work:
+```python
+from fnode import Fnode
+import elem_fn as elem
+import numpy as np
+
+v_0 = Fnode(3.0, 1.0)
+v_1 = elem.sin(3 * v_0 + 1)
+
+assert v_1.val == np.sin(10.0)
+assert v_1.deriv == 3 * np.cos(10.0)
+```
 
 ## Organization 
+
+### Directory Structure
+```
+cs107-FinalProject/
+    docs/
+    src/
+        elem_fn.py
+        elem_rn.py
+        fnode.py
+        rnode.py
+        vector_fn.py
+    tests/
+```
+* The `docs/` subdirectory contains documentation about using the library.
+
+* The `src/` subdirectory contains source code for automated differentiation.
+    * `elem_fn.py` file contains source code for the elementary functions for forward mode
+    * `elem_rn.py` file contains source code for the elementary functions for reverse mode 
+    * `fnode.py` file contains source code for the forward mode node object
+    * `rnode.py` file contains source code for the reverse mode node object
+    * `vector_fn.py` file contains contains source code for the vector valued function object
+    
+
+* The `tests/` subdirectory contains tests written to be compatible with `pytest`, so that they can be automatically run and code coverage reports can thus be generated.
+
 
 ## Implementaiton Details 
 
