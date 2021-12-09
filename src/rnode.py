@@ -47,7 +47,7 @@ class Rnode:
             other: Value or Rnode that represents the power to raise the current Rnode or value by
 
         Returns:
-            For Fnodes, a new Rnode object where the self and other Rnodes are multiplied according to the power rule
+            For Rnodes, a new Rnode object where the self and other Rnodes are multiplied according to the power rule
             For values, a new Rnode object where the self and other values are multiplied according to the power rule
         """
         try:
@@ -133,7 +133,7 @@ class Rnode:
         other: Value or Rnode that represents the amount to multiply the current Rnode or value by
 
         Returns:
-        For Fnodes, a new Rnode object where the self and other Rnodes are multiplied according to the product rule
+        For Rnodes, a new Rnode object where the self and other Rnodes are multiplied according to the product rule
         For values, a new Rnode object where the self and other values are multiplied according to the product rule
         """
         if isinstance(other, (int, float)):
