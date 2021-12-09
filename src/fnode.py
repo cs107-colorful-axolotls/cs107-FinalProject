@@ -1,27 +1,59 @@
+from functools import total_ordering
+from typing import Type
 import numpy as np
+from numpy.lib.arraysetops import isin
 
 class Fnode:
-    def __init__(self, val, deriv=1):
+    def __init__(self, val, deriv=1, var_name="none"):
         """Constructor for Node for Forward Automatic differentiaton.
 
         Parameters
         ==========
-        val : int/float
+        val : list/int/float
             The value of the node
-        deriv : int/float
+        deriv : list/int/float
             The first derivative of the node
+        var_name : string
+            The name of the variable
         """
 
-        self._val = val
-        self._deriv = deriv
+        if isinstance(val, (int, float, list)):
+            self._val = np.array([val])
+        elif isinstance(val, np.ndarray):
+            self._val = val
+        else:
+            raise TypeError("val must be either a number, list, or numpy array")
+        
+        if isinstance(deriv, (int, float)):
+            self._deriv = {var_name: np.array([deriv] * len(self._val))}
+        elif type(deriv) == list:
+            self._deriv = {var_name: np.array(deriv)}
+        elif type(deriv) == dict:
+            self._deriv = deriv
+        else:
+            raise TypeError("deriv must be either a number, list, or dictionary")
+
+        self._var_name = var_name
+
 
     @property
     def deriv(self):
         return self._deriv
 
+
     @property
     def val(self):
         return self._val
+
+
+    @property
+    def var_name(self):
+        return self._var_name
+
+
+    def get_vars(self):
+        return set(self._deriv.keys())
+
 
     def __neg__(self):
         """
@@ -35,6 +67,7 @@ class Fnode:
         """
         return Fnode(-self._val, -self._deriv)
 
+
     def __add__(self, other):
         """
         Overloads addition
@@ -46,13 +79,21 @@ class Fnode:
         For Fnodes, a new Fnode object where the other is added to self for the value and derivative
         For values, a new Fnode object where the other is added to self for the value and derivative
         """
-        try:
-            return Fnode(self._val + other.val, self._deriv + other.deriv)
-        except AttributeError:
-            return Fnode(self._val + other, self._deriv)
+        if isinstance(other, Fnode):
+            total_deriv = {}
+            total_vars = self.get_vars().union(other.get_vars())
+            for var in total_vars:
+                total_deriv[var] = self._deriv.get(var, 0) + other.deriv.get(var, 0)
+            return Fnode(self._val + other.val, total_deriv, self._var_name)
+        elif isinstance(other, (int, float)):
+            return Fnode(self._val + other, self._deriv.copy(), self._var_name)
+        else:
+            raise TypeError("Invalid input type: must add either Fnode, int, or float")
     
+
     def __radd__(self, other):
         return self.__add__(other)
+
 
     def __sub__(self, other):
         """
@@ -65,17 +106,22 @@ class Fnode:
         For Fnodes, a new Fnode object where the other is subtracted from self for the value and derivative
         For values, a new Fnode object where the other is subtracted from self for the value and derivative
         """
-        try:
-            return Fnode(self._val - other.val, self._deriv - other.deriv)
-        except AttributeError:
-            return Fnode(self._val - other, self._deriv)
+        if isinstance(other, Fnode):
+            total_deriv = {}
+            total_vars = self.get_vars().union(other.get_vars())
+            for var in total_vars:
+                total_deriv[var] = self._deriv.get(var, 0) - other.deriv.get(var, 0)
+            return Fnode(self._val - other._val, total_deriv, self._var_name)
+        elif isinstance(other, (int, float)):
+            return Fnode(self._val - other, self._deriv.copy(), self._var_name)
+        else:
+            raise TypeError("Invalid input type: must subtract either Fnode, int, or float")
+
 
     def __rsub__(self, other):
-        try:
-            return Fnode(self._val - other.val, other.deriv - self._deriv)
-        except AttributeError:
-            return Fnode(other - self._val, -self._deriv)
+        return -self + other
       
+
     def __mul__(self, other):
         """
         Overloads multiplication
@@ -87,14 +133,24 @@ class Fnode:
         For Fnodes, a new Fnode object where the self and other Fnodes are multiplied according to the product rule for the value and derivative
         For values, a new Fnode object where the self and other values are multiplied according to the product rule for the value and derivative
         """
-        try:
-            return Fnode(self._val * other.val, self._val * other.deriv + other.val * self._deriv)
-        except AttributeError:
-            other = Fnode(other, 0)
-            return Fnode(self._val * other.val, self._val * other.deriv + other.val * self._deriv)
+        if isinstance(other, Fnode):
+            total_deriv = {}
+            total_vars = self.get_vars().union(other.get_vars())
+            for var in total_vars:
+                total_deriv[var] = self._val * other.deriv.get(var, 0) + other.val * self._deriv.get(var, 0)
+            return Fnode(self._val * other.val, total_deriv, self._var_name)
+        elif isinstance(other, (int, float)):
+            total_deriv = {}
+            for var in self.get_vars():
+                total_deriv[var] = self._deriv[var] * other
+            return Fnode(self._val * other, total_deriv, self._var_name)
+        else:
+            raise TypeError("Invalid input type: must multiply either Fnode, int, or float")
+
 
     def __rmul__(self, other):
         return self.__mul__(other)
+
 
     def __truediv__(self, other):
         """
@@ -107,10 +163,12 @@ class Fnode:
         For Fnodes, a new Fnode object where the self and other Fnodes are divided according to the quotient rule for the value and derivative
         For values, a new Fnode object where the self and other values are divided according to the quotient rule for the value and derivative
         """
-        try:
-            return Fnode(self._val / other.val, (self.deriv * other.val - self._val * other.deriv) / (other.val ** 2))
-        except AttributeError:
-            return Fnode(self._val / other, self._deriv / other)
+        return self * (other ** (-1))
+
+    
+    def __rtruediv__(self, other):
+        return other * (self ** (-1))
+
 
     def __pow__(self, other):
         """
@@ -123,10 +181,60 @@ class Fnode:
         For Fnodes, a new Fnode object where the self and other Fnodes are multiplied according to the power rule for the value and derivative
         For values, a new Fnode object where the self and other values are multiplied according to the power rule for the value and derivative
         """
-        try:
-            return Fnode(self._val ** other.val, other.val * self._val ** (other.val - 1) * self._deriv)
-        except AttributeError:
-            return Fnode(self._val ** other, other * self._val ** (other - 1) * self._deriv)
+        if isinstance(other, Fnode):
+            if len(other.val) != len(self.val):
+                raise ValueError("Two Fnodes must be of the same length")
+            elif len(other.val) == 1:
+                value_other = other.val * np.ones(self._val.shape)
+            else:
+                value_other = other.val[:]
+
+            total_deriv = {}
+            total_vars = self.get_vars().union(other.get_vars())
+            total_value = np.array([float(v) ** v_other for v, v_other in zip(self._val, other.val)])
+
+            for var in total_vars:
+                current_value = np.array([v ** (v_other - 1) for v, v_other in zip(self._val, other.val)])
+                total_deriv[var] = (value_other * self._deriv.get(var, 0) + self._val * np.log(self._val) * other._deriv.get(var, 0)) * current_value
+            
+            return Fnode(total_value, total_deriv, self._var_name)
+        elif isinstance(other, (int, float)):
+            total_value = np.array([float(v) ** other for v in self._val])
+            total_deriv = {}
+            
+            for var in self.get_vars():
+                current_value = np.array([float(v) ** (other - 1) for v in self._val])
+                total_deriv[var] = other * current_value * self._deriv[var]
+            
+            return Fnode(total_value, total_deriv, self._var_name)
+        else:
+            raise TypeError("Invalid input type: must raise to the power of an Fnode, int, or float")
+
 
     def __rpow__(self, other):
-        return Fnode(other ** self._val, np.log(other) * other ** (self._val))
+        if isinstance(other, Fnode):
+            if len(other.val) != len(self.val):
+                raise ValueError("Two Fnodes must be of the same length")
+            elif len(other.val) == 1:
+                value_other = other.val * np.ones(self._val.shape)
+            else:
+                value_other = other.val[:]
+
+            total_deriv = {}
+            total_vars = self.get_vars().union(other.get_vars())
+            total_value = np.array([v_other ** v for v, v_other in zip(self._val, other.val)])
+
+            for var in total_vars:
+                current_value = np.array([v_other ** (v - 1) for v, v_other in zip(self._val, other.val)])
+                total_deriv[var] = (value_other * np.log(other.val) * self._deriv.get(var, 0) + self._val * other.deriv.get(var, 0)) * current_value
+
+            return Fnode(total_value, total_deriv, self._var_name)
+        elif isinstance(other, (int, float)):
+            total_value = np.array([other ** v for v in self._val])
+            total_deriv = {}
+
+            for var in self.get_vars():
+                current_value = np.array([other ** (v - 1) for v in self._val])
+                total_deriv[var] = np.log(other) * current_value * self._deriv[var]
+        else:
+            raise TypeError("Invalid input type: must raise to the power of an Fnode, int, or float")

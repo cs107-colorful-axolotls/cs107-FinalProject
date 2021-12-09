@@ -11,13 +11,18 @@ def tan(x):
     x: Value or Fnode at which the tan function is to be evaluated
 
     Returns:
-    For Fnodes, a new Fnode object with tan computed for the value and derivative
-    For values, the tan function evaluated at that value
+    For Fnodes, a new Fnode object with tangent computed for the value and derivative
+    For values, the tangent function evaluated at that value
     """
-    try:
-        return Fnode(np.tan(x._val), (1 / (np.cos(x._val)**2)) * x._deriv)
-    except AttributeError:
+    if isinstance(x, (int, float)):
         return np.tan(x)
+
+    value = np.tan(x.val)
+    deriv_dict = {}
+    for var in x.get_vars():
+        deriv_dict[var] = x.deriv[var] / (np.cos(x.val) ** 2)
+    return Fnode(value, deriv_dict, x.var_name)
+    
 
 def arctan(x):
     """
@@ -30,10 +35,15 @@ def arctan(x):
     For Fnodes, a new Fnode object with arctan computed for the value and derivative
     For values, the arctan function evaluated at that value
     """
-    try:
-        return Fnode(np.arctan(x._val), (1 / (1 + x._val**2)) * x._deriv)
-    except AttributeError:
+    if isinstance(x, (int, float)):
         return np.arctan(x)
+
+    value = np.arctan(x.val)
+    deriv_dict = {}
+    for var in x.get_vars():
+        deriv_dict[var] = x.deriv[var] * (1 / (1 + x._val**2))
+    return Fnode(value, deriv_dict, x.var_name)
+
 
 def tanh(x):
     """
@@ -46,10 +56,14 @@ def tanh(x):
     For Fnodes, a new Fnode object with tanh computed for the value and derivative
     For values, the tanh function evaluated at that value
     """
-    try:
-        return Fnode(np.tanh(x._val), (1 - np.tanh(x._val)**2) * x._deriv)
-    except AttributeError:
+    if isinstance(x, (int, float)):
         return np.tanh(x)
+
+    value = np.tanh(x.val)
+    deriv_dict = {}
+    for var in x.get_vars():
+        deriv_dict[var] = x.deriv[var] * (1 - np.tanh(x._val)**2)
+    return Fnode(value, deriv_dict, x.var_name)
 
 def ln(x):
     """
@@ -62,12 +76,18 @@ def ln(x):
     For Fnodes, a new Fnode object with natural log computed for the value and derivative
     For values, the natural log function evaluated at that value
     """
-    try:
-        if x._val <= 0:
-            raise ValueError("The natural log is not defined for negative numbers")
-        return Fnode(np.log(x._val), 1 / x._val * x._deriv)
-    except AttributeError:  # This is not a Fnode
+    if isinstance(x, (int, float)):
         return np.log(x)
+
+    if x.val <= 0:
+        raise ValueError("The natural log is not defined for negative numbers")
+
+    value = np.log(x.val)
+    deriv_dict = {}
+    for var in x.get_vars():
+        deriv_dict[var] = x.deriv[var] * (1 / x.val)
+    return Fnode(value, deriv_dict, x.var_name)
+
 
 def log(x, base):
     """
@@ -81,14 +101,18 @@ def log(x, base):
     For Fnodes, a new Fnode object with log computed for the value and derivative
     For values, the log function evaluated at that value
     """
-    try:
-        if x._val <= 0:
-            raise ValueError("Log is not defined for negative numbers or zero")
-        return Fnode(
-            np.log(x._val) / np.log(base), 1 / (x._val * np.log(base)) * x._deriv
-        )
-    except AttributeError:  # This is not a Fnode
+    if isinstance(x, (int, float)):
         return np.log(x) / np.log(base)
+
+    if x.val <= 0:
+        raise ValueError("Log is not defined for negative numbers or zero")
+
+    value = np.log(x.val) / np.log(base)
+    deriv_dict = {}
+    for var in x.get_vars():
+        deriv_dict[var] = x.deriv[var] * 1 / (x.val * np.log(base))
+    return Fnode(value, deriv_dict, x.var_name)
+
 
 def sqrt(x):
     """
@@ -101,12 +125,18 @@ def sqrt(x):
     For Fnodes, a new Fnode object with natural log computed for the value and derivative
     For values, the natural log function evaluated at that value
     """
-    try:
-        if x._val < 0:
-            raise ValueError("Square root is not real for negative numbers")
-        return Fnode(x._val ** 0.5, 0.5 * x._val ** -0.5 * x._deriv)
-    except AttributeError:  # This is not a Fnode
+    if isinstance(x, (int, float)):
         return np.sqrt(x)
+
+    if x.val < 0:
+        raise ValueError("Square root is not real for negative numbers")
+
+    value = np.sqrt(x.val)
+    deriv_dict = {}
+    for var in x.get_vars():
+        deriv_dict[var] = x.deriv[var] * (0.5 * x._val ** -0.5)
+    return Fnode(value, deriv_dict, x.var_name)
+
 
 def sin(x):
     """
@@ -119,10 +149,15 @@ def sin(x):
     For Fnodes, a new Fnode object with sin computed for the value and derivative
     For values, the sin function evaluated at that value
     """
-    try:
-        return Fnode(np.sin(x._val), np.cos(x._val) * x._deriv)
-    except AttributeError:
+    if isinstance(x, (int, float)):
         return np.sin(x)
+
+    value = np.sin(x.val)
+    deriv_dict = {}
+    for var in x.get_vars():
+        deriv_dict[var] = x.deriv[var] * np.cos(x.val)
+    return Fnode(value, deriv_dict, x.var_name)
+
 
 def arcsin(x):
     """
@@ -135,12 +170,18 @@ def arcsin(x):
     For Fnodes, a new Fnode object with arcsin computed for the value and derivative
     For values, the arcsin function evaluated at that value
     """
-    try:
-        if x._val < -1 or x._val > 1: # range of valid values for arc_sin values is -1 ≤ x ≤ 1
-            raise ValueError("The domain of arcsin is between -1 and 1 inclusive")
-        return Fnode(np.arcsin(x._val), (1/((1 - x._val ** 2)) ** 0.5) * x._deriv)
-    except AttributeError:  # This is not a Fnode
+    if isinstance(x, (int, float)):
         return np.arcsin(x)
+
+    if x.val < -1 or x.val > 1:
+        raise ValueError("The domain of arcsin is between -1 and 1 inclusive")
+
+    value = np.arcsin(x.val)
+    deriv_dict = {}
+    for var in x.get_vars():
+        deriv_dict[var] = x.deriv[var] * (1/((1 - x.val ** 2)) ** 0.5)
+    return Fnode(value, deriv_dict, x.var_name)
+
 
 def sinh(x):
     """
@@ -153,10 +194,15 @@ def sinh(x):
     For Fnodes, a new Fnode object with sinh computed for the value and derivative
     For values, the sinh function evaluated at that value
     """
-    try:
-        return Fnode(np.sinh(x._val), np.cosh(x._val) * x._deriv)
-    except AttributeError:
+    if isinstance(x, (int, float)):
         return np.sinh(x)
+
+    value = np.sinh(x.val)
+    deriv_dict = {}
+    for var in x.get_vars():
+        deriv_dict[var] = x.deriv[var] * np.cosh(x.val)
+    return Fnode(value, deriv_dict, x.var_name)
+
 
 def cos(x):
     """
@@ -169,10 +215,15 @@ def cos(x):
     For Fnodes, a new Fnode object with cos computed for the value and derivative
     For values, the cos function evaluated at that value
     """
-    try:
-        return Fnode(np.cos(x._val), -1 * np.sin(x._val) * x._deriv)
-    except AttributeError:  # This is not a Fnode
+    if isinstance(x, (int, float)):
         return np.cos(x)
+
+    value = np.cos(x.val)
+    deriv_dict = {}
+    for var in x.get_vars():
+        deriv_dict[var] = x.deriv[var] * -1 * np.sin(x.val)
+    return Fnode(value, deriv_dict, x.var_name)
+
 
 def arccos(x):
     """
@@ -185,12 +236,18 @@ def arccos(x):
     For Fnodes, a new Fnode object with arccos computed for the value and derivative
     For values, the arccos function evaluated at that value
     """
-    try:
-        if x._val > 1 or x._val < -1:
-            raise ValueError("The domain of arccos is between -1 and 1 inclusive")
-        return Fnode(np.arccos(x._val), (-1 / (1 - x._val ** 2) ** 0.5) * x._deriv)
-    except AttributeError:  # This is not a Fnode
+    if isinstance(x, (int, float)):
         return np.arccos(x)
+
+    if x.val > 1 or x.val < -1:
+        raise ValueError("The domain of arccos is between -1 and 1 inclusive")
+
+    value = np.arccos(x.val)
+    deriv_dict = {}
+    for var in x.get_vars():
+        deriv_dict[var] = x.deriv[var] * (-1 / (1 - x._val ** 2) ** 0.5)
+    return Fnode(value, deriv_dict, x.var_name)
+    
 
 def cosh(x):
     """
@@ -203,23 +260,32 @@ def cosh(x):
     For Fnodes, a new Fnode object with cosh computed for the value and derivative
     For values, the cosh function evaluated at that value
     """
-    try:
-        return Fnode(np.cosh(x._val), np.sinh(x._val) * x._deriv)
-    except AttributeError:  # This is not a Fnode
+    if isinstance(x, (int, float)):
         return np.cosh(x)
+
+    value = np.cosh(x.val)
+    deriv_dict = {}
+    for var in x.get_vars():
+        deriv_dict[var] = x.deriv[var] * np.sinh(x.val)
+    return Fnode(value, deriv_dict, x.var_name)
+
 
 def exp(x):
     """
-        Elementary function exp
+    Elementary function exp
 
-        Parameters:
-        x: Value or Fnode at which the exp function is to be evaluated
+    Parameters:
+    x: Value or Fnode at which the exp function is to be evaluated
 
-        Returns:
-        For Fnodes, a new Fnode object with exp computed for the value and derivative
-        For values, the exp function evaluated at that value
-        """
-    try:
-        return Fnode(np.exp(x._val), np.exp(x._val) * x._deriv)
-    except AttributeError:  # This is not a Fnode
+    Returns:
+    For Fnodes, a new Fnode object with exp computed for the value and derivative
+    For values, the exp function evaluated at that value
+    """
+    if isinstance(x, (int, float)):
         return np.exp(x)
+
+    value = np.exp(x.val)
+    deriv_dict = {}
+    for var in x.get_vars():
+        deriv_dict[var] = x.deriv[var] * np.exp(x.val)
+    return Fnode(value, deriv_dict, x.var_name)
