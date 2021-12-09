@@ -76,6 +76,7 @@ def cos(x):
 def arccos(x):
     z = Rnode(np.arccos(x._val))
     x._children.append((-1 / (1 - x._val ** 2) ** 0.5, z))
+    return z
 
 
 
