@@ -215,22 +215,6 @@ class Fnode:
 
     def __rpow__(self, other):
         if isinstance(other, Fnode):
-            # if len(other.val) != len(self.val):
-            #     raise ValueError("Two Fnodes must be of the same length")
-            # elif len(other.val) == 1:
-            #     value_other = other.val * np.ones(self._val.shape)
-            # else:
-            #     value_other = other.val[:]
-
-            # total_deriv = {}
-            # total_vars = self.get_vars().union(other.get_vars())
-            # total_value = np.array([v_other ** v for v, v_other in zip(self._val, other.val)])
-
-            # for var in total_vars:
-            #     current_value = np.array([v_other ** (v - 1) for v, v_other in zip(self._val, other.val)])
-            #     total_deriv[var] = (value_other * np.log(other.val) * self._deriv.get(var, 0) + self._val * other.deriv.get(var, 0)) * current_value
-
-            # return Fnode(total_value, total_deriv, self._var_name)
             return other ** self
         elif isinstance(other, (int, float)):
             total_value = np.array([other ** v for v in self._val])
