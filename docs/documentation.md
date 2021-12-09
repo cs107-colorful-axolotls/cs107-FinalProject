@@ -52,21 +52,20 @@ assert v_1.deriv == 3 * np.cos(10.0)
 cs107-FinalProject/
     docs/
     src/
-        elem_fn.py
-        elem_rn.py
+      forward_mode/
+        elem.py
         fnode.py
-        rnode.py
         vector_fn.py
+      reverse_mode/
+        elem.py
+        rnode.py
     tests/
 ```
 * The `docs/` subdirectory contains documentation about using the library.
 
-* The `src/` subdirectory contains source code for automated differentiation.
-    * `elem_fn.py` file contains source code for the elementary functions for forward mode
-    * `elem_rn.py` file contains source code for the elementary functions for reverse mode 
-    * `fnode.py` file contains source code for the forward mode node object
-    * `rnode.py` file contains source code for the reverse mode node object
-    * `vector_fn.py` file contains contains source code for the vector valued function object
+* The `src/` contains further subdirectories containing source code for automatic differentiation.
+  * `forward_mode/` contains source code for forward mode for automatic differentiation
+  * `reverse_mode/` contains source code for forward mode for automatic differentiation
     
 
 * The `tests/` subdirectory contains tests written to be compatible with `pytest`, so that they can be automatically run and code coverage reports can thus be generated.
@@ -77,9 +76,8 @@ cs107-FinalProject/
     * `pytest`is used in the test suite
 
 #### Internal Modules:
-  * The `elem_fn` module contains the elementary functions used for forward mode
-  * The `elem_rn` module contains the elementary functions used for reverse mode
-  * The `fnode` module contains the forward mode 
+  * The `forward_mode` module contains the objects and functions necessary to do forward mode automatic differentiation on real and vector valued functions 
+  * The `reverse_mode` module contains the objects and functions necessary to do reverse mode automatic differentiation on real functions
 
 ## Implementaiton Details 
 
