@@ -17,8 +17,10 @@ class Fnode:
             The name of the variable
         """
 
-        if isinstance(val, (int, float, list)):
+        if isinstance(val, (int, float)):
             self._val = np.array([val])
+        elif isinstance(val, list):
+            self._val = np.array(val)
         elif isinstance(val, np.ndarray):
             self._val = val
         else:
@@ -65,7 +67,10 @@ class Fnode:
         Returns:
         A new Fnode object that where the value and derivative are both negated
         """
-        return Fnode(-self._val, -self._deriv)
+        total_deriv = {}
+        for var in self.get_vars():
+            total_deriv[var] = -self.deriv.get(var, 0)
+        return Fnode(-self._val, total_deriv)
 
 
     def __add__(self, other):
@@ -213,28 +218,33 @@ class Fnode:
 
     def __rpow__(self, other):
         if isinstance(other, Fnode):
-            if len(other.val) != len(self.val):
-                raise ValueError("Two Fnodes must be of the same length")
-            elif len(other.val) == 1:
-                value_other = other.val * np.ones(self._val.shape)
-            else:
-                value_other = other.val[:]
+            # if len(other.val) != len(self.val):
+            #     raise ValueError("Two Fnodes must be of the same length")
+            # elif len(other.val) == 1:
+            #     value_other = other.val * np.ones(self._val.shape)
+            # else:
+            #     value_other = other.val[:]
 
-            total_deriv = {}
-            total_vars = self.get_vars().union(other.get_vars())
-            total_value = np.array([v_other ** v for v, v_other in zip(self._val, other.val)])
+            # total_deriv = {}
+            # total_vars = self.get_vars().union(other.get_vars())
+            # total_value = np.array([v_other ** v for v, v_other in zip(self._val, other.val)])
 
-            for var in total_vars:
-                current_value = np.array([v_other ** (v - 1) for v, v_other in zip(self._val, other.val)])
-                total_deriv[var] = (value_other * np.log(other.val) * self._deriv.get(var, 0) + self._val * other.deriv.get(var, 0)) * current_value
+            # for var in total_vars:
+            #     current_value = np.array([v_other ** (v - 1) for v, v_other in zip(self._val, other.val)])
+            #     total_deriv[var] = (value_other * np.log(other.val) * self._deriv.get(var, 0) + self._val * other.deriv.get(var, 0)) * current_value
 
-            return Fnode(total_value, total_deriv, self._var_name)
+            # return Fnode(total_value, total_deriv, self._var_name)
+            return other ** self
         elif isinstance(other, (int, float)):
             total_value = np.array([other ** v for v in self._val])
             total_deriv = {}
 
             for var in self.get_vars():
                 current_value = np.array([other ** (v - 1) for v in self._val])
+                print(np.log(other))
+                print(current_value)
+                print(self._deriv[var])
                 total_deriv[var] = np.log(other) * current_value * self._deriv[var]
+            return Fnode(total_value, total_deriv, self._var_name)
         else:
             raise TypeError("Invalid input type: must raise to the power of an Fnode, int, or float")
