@@ -1,6 +1,6 @@
 import pytest
-from src.rnode import Rnode
-import src.elem_rn as elem
+from src.reverse_mode.rnode import Rnode
+import src.reverse_mode.elem as elem
 import numpy as np
 
 def test_ln():

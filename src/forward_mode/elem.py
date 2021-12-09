@@ -1,4 +1,4 @@
-from src.fnode import Fnode
+from src.forward_mode.fnode import Fnode
 import numpy as np
 
 """Elementary functions for forward mode"""

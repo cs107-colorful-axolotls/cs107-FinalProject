@@ -1,6 +1,6 @@
 import pytest
-from src.fnode import Fnode
-import src.elem_fn as elem
+from src.forward_mode.fnode import Fnode
+import src.forward_mode.elem as elem
 import numpy as np
 
 def test_ln():

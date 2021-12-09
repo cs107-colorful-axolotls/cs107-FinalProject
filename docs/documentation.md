@@ -71,6 +71,15 @@ cs107-FinalProject/
 
 * The `tests/` subdirectory contains tests written to be compatible with `pytest`, so that they can be automatically run and code coverage reports can thus be generated.
 
+### Basic Modules
+#### External Dependencies:
+    * `numpy` is be used to conduct many of the numerical calculations and array manipulation operations related to automated differentiation.
+    * `pytest`is used in the test suite
+
+#### Internal Modules:
+  * The `elem_fn` module contains the elementary functions used for forward mode
+  * The `elem_rn` module contains the elementary functions used for reverse mode
+  * The `fnode` module contains the forward mode 
 
 ## Implementaiton Details 
 
