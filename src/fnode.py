@@ -220,11 +220,9 @@ class Fnode:
             total_value = np.array([other ** v for v in self._val])
             total_deriv = {}
 
+
             for var in self.get_vars():
                 current_value = np.array([other ** (v - 1) for v in self._val])
-                print(np.log(other))
-                print(current_value)
-                print(self._deriv[var])
                 total_deriv[var] = np.log(other) * current_value * self._deriv[var]
             return Fnode(total_value, total_deriv, self._var_name)
         else:

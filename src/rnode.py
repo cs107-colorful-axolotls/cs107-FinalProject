@@ -24,6 +24,10 @@ class Rnode:
 
         Returns:
             The float value of the functions gradient
+
+        Notes:
+            Set grad_value of the last Rnode to 1 before using this function.
+            See test files for examples.
         """
         if self.grad_value is None:
             self.grad_value = sum(weight * rnode.grad() for weight, rnode in self._children)
@@ -40,11 +44,11 @@ class Rnode:
         Overloads exponentiation (powers)
 
         Parameters:
-        other: Value or Rnode that represents the power to raise the current Rnode or value by
+            other: Value or Rnode that represents the power to raise the current Rnode or value by
 
         Returns:
-        For Fnodes, a new Rnode object where the self and other Rnodes are multiplied according to the power rule
-        For values, a new Rnode object where the self and other values are multiplied according to the power rule
+            For Fnodes, a new Rnode object where the self and other Rnodes are multiplied according to the power rule
+            For values, a new Rnode object where the self and other values are multiplied according to the power rule
         """
         try:
             z = Rnode(self._val ** other._val)
@@ -66,11 +70,8 @@ class Rnode:
         """
         Overloads negation
 
-        Parameters:
-        x: Value or Rnode to negate
-
         Returns:
-        A new Rnode object where the value is negated
+            A new Rnode object where the value is negated
         """
         z = Rnode(-self._val)
         self._children.append((-1, z))
@@ -78,6 +79,15 @@ class Rnode:
 
 
     def __add__(self, other):
+        """
+        Overloads addition operation
+
+        Parameters:
+            other: Value or Rnode to add with
+
+        Returns:
+            A new Rnode object where the value is the value of self added with the value of other
+        """
         if isinstance(other, (int, float)):
             return Rnode(self._val + other)
         else:
@@ -92,6 +102,16 @@ class Rnode:
 
 
     def __sub__(self, other):
+        """
+        Overloads subtraction operation
+
+        Parameters:
+            other: Value or Rnode to subtract
+
+        Returns:
+            A new Rnode object where the value is the value of self minus the value of other
+        """
+
         if isinstance(other, (int, float)):
             return Rnode(self._val - other)
         else:
