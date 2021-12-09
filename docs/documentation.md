@@ -79,11 +79,27 @@ cs107-FinalProject/
   * The `forward_mode` module contains the objects and functions necessary to do forward mode automatic differentiation on real and vector valued functions 
   * The `reverse_mode` module contains the objects and functions necessary to do reverse mode automatic differentiation on real functions
 
-## Implementaiton Details 
+## Implementation Details 
+### Core Classes 
+### Elementary functions
+
 
 ## Extension 
 
+Our extension is reverse mode automatic differentiation. We implemented a new class of nodes called `Rnode` and compatible elementary functions to achieve this.
+
+### Reverse Mode Background
+
+Reverse mode automatic differentiation is more efficient than forward mode. For functions that go from n dimensions to m dimensions where m < n reverse mode only requires m sweeps but forward mode requires n. 
+
+Consider same function used in previous explanations ![equation](https://latex.codecogs.com/png.latex?f=\sin{(x^2)}+x). We can construct the following graph structure to represent the steps needed to evaluate this derivative.
+Recall it can be represented with the following computational graph 
+<img src="figures/m1_1.png"/>
+
+### Demo 
+
 ## Broader Impact and Inclusivity Statement
+
 
 Automatic Differentiation is a powerful tool that automates the calculation of complex derivatives. Our package provides a fast, accurate way to calculate the gradients of functions of many variables.  Using our library correctly reduces the risk of human errors. However, it is important that the users of this software read the documentation before use. Misuse of our package could introduce errors into the users’ calculations, potentially invaliding their results. It is a well-documented phenomenon in human factors engineering that humans are less skeptical of results when they come from a machine automated algorithm. In risk adverse fields it is important that the users of this package validate their results to make sure they are using it correctly. 
 
