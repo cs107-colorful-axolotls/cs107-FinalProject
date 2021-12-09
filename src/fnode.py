@@ -1,7 +1,4 @@
-from functools import total_ordering
-from typing import Type
 import numpy as np
-from numpy.lib.arraysetops import isin
 
 class Fnode:
     def __init__(self, val, deriv=1, var_name="none"):
