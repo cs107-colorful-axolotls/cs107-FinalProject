@@ -98,7 +98,32 @@ cs107-FinalProject/
       * function_list : list
                 list of functions for each variable
 ### Elementary functions
-
+    * sin
+        * Elementary trig function sine
+    * cos
+        * Elementary trig function cosine
+    * tan
+        * Elementary trig function tangent
+    * arcsin
+        * Inverse trig function of sine
+    * arccos
+        * Elementary trig function of cosine
+    * arctan
+        * Elementary trig function of tangent
+    * sinh
+        * Hyberbolic trig function of sine
+    * cosh
+        * Hyberbolic trig function of cosine
+    * tanh
+        * Hyberbolic trig function of tangent
+    * exp 
+        * Special case of the power function with base e
+    * log 
+        * Log function with arbitrary base
+    * ln 
+        * Natrual log function (Log function with base e)
+    * sqrt 
+        * Square root function
 
 ## Extension 
 
