@@ -82,18 +82,21 @@ cs107-FinalProject/
 ## Implementation Details
 ### Core Classes 
   * Fnode class is the forward mode node object. 
-    *  Parameters
-        val : list/int/float
-            The value of the node
-        deriv : list/int/float
-            The first derivative of the node
-        var_name : string
-            The name of the variable
+    * Parameters
+      * val : list/int/float
+              The value of the node
+      * deriv : list/int/float
+              The first derivative of the node
+      * var_name : string
+              The name of the variable
   * Rnode class is the reverse mode node object.
     * Parameters
-        val : int/float
-            The value of the node
-  * Vector_Fn
+      * val : int/float
+              The value of the node
+  * Vector_Fn class that enables differentiation of vector valued functions for forward mode
+    * Parameters
+      * function_list : list
+                list of functions for each variable
 ### Elementary functions
 
 
