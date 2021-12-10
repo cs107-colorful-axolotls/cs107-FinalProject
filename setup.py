@@ -1,20 +1,26 @@
-from setuptools import setup, find_packages
+import setuptools
 
-with open("README.md", "r") as fh:
+with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-setup(
-    name="adfihenryi",
-    version="1.0.0",
-    description="A package for forward and reverse automatic differentiation",
+setuptools.setup(
+    name="example-subpkg-fihenry",
+    version="0.0.1",
+    author="Example Author",
+    author_email="author@example.com",
+    description="A small example package",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/cs107-colorful-axolotls/cs107-FinalProject",
-    packages=find_packages(),
+    url="https://github.com/pypa/sampleproject",
+    project_urls={
+        "Bug Tracker": "https://github.com/pypa/sampleproject/issues",
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.6',
+    package_dir={"": "src"},
+    packages=setuptools.find_packages(where="src"),
+    python_requires=">=3.6",
 )
