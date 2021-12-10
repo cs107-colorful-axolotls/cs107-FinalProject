@@ -90,13 +90,20 @@ Our extension is reverse mode automatic differentiation. We implemented a new cl
 
 ### Reverse Mode Background
 
-Reverse mode automatic differentiation is more efficient than forward mode. For functions that go from n dimensions to m dimensions where m < n reverse mode only requires m sweeps but forward mode requires n. 
+Forward mode automatic differentiation can be computationally expensive when you need to calculate the gradient of complicated multi-variate functions.
+Reverse mode automatic differentiation overcomes this issue. 
 
 Consider same function used above: ![equation](https://latex.codecogs.com/png.latex?f=\sin{(x^2)}+x). 
 Recall it can be represented with the following computational graph 
 <img src="figures/m1_1.png"/>
 
+First, a sweep is done in the forward direction of the computational graph to calculate the values of each node. (Right table below)
+Then, a second sweep is done in the backward direction of the graph. (Left table below) Using the chain rule, and taking partial derivatives, the derivative value at each node can be deduced. 
+The only subtly occurs when the derivative can be calculated coming through two nodes. For example, V0 is involved coming from the V3 and V1 node. In this case the two values of the derivative need to be added to together (See second row in the left table.)
+Again, note that reverse mode correctly calculates the derivative. 
+
 <img src="figures/reverse_mode.png"/>
+
 ### Demo 
 
 ## Broader Impact and Inclusivity Statement
