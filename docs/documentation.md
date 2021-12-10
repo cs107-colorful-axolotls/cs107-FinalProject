@@ -97,7 +97,28 @@ cs107-FinalProject/
     * Parameters
       * function_list : list
                 list of functions for each variable
+In the forward and reverse mode nodes we overrode various dunder methods to give the desired behavior when calculating the derivative.  Here is an example:
+```python
+def __mul__(self, other):
+    """
+    Overloads multiplication
+
+    Parameters:
+    other: Value or Fnode to multiply against
+
+    Returns:
+    For Fnodes, a new Fnode object where the self and other Fnodes are multiplied according to the product rule for the value and derivative
+    For values, a new Fnode object where the self and other values are multiplied according to the product rule for the value and derivative
+    """
+    try:
+        return Fnode(self._val * other.val, self._val * other.deriv + other.val * self._deriv)
+    except AttributeError:
+        other = Fnode(other, 0)
+        return Fnode(self._val * other.val, self._val * other.deriv + other.val * self._deriv)
+```
 ### Elementary functions
+The following elementary functions are implemented for both forward and reverse mode. 
+
 * sin
     * Elementary trig function sine
 * cos
@@ -125,6 +146,24 @@ cs107-FinalProject/
 * sqrt 
     * Square root function
 
+The following is an example of the tan function for forward mode: 
+```python
+def tan(x):
+    """
+    Elementary function tan
+
+    Parameters:
+    x: Value or Fnode at which the tan function is to be evaluated
+
+    Returns:
+    For Fnodes, a new Fnode object with tan computed for the value and derivative
+    For values, the tan function evaluated at that value
+    """
+    try:
+        return Fnode(np.tan(x._val), (1 / (np.cos(x._val)**2)) * x._deriv)
+    except AttributeError:
+        return np.tan(x)
+```
 ## Extension 
 
 Our extension is reverse mode automatic differentiation. We implemented a new class of nodes called `Rnode` and compatible elementary functions to achieve this.
@@ -169,3 +208,8 @@ Our automatic differentiation library is easily accessible to anyone who has acc
 
 
 ## Future
+
+Currently our software handles vector valued functions for forward mode but not for reverse mode. 
+In the future reverse mode could be extended to handle vector valued functions. 
+This could be especially useful for applications in machine learning, where reverse mode is necessary to speed up training. 
+Also a root-finding algorithm like Newton's Method could be implemented. Not only is this adding additional functionality to our software, our Newton's Method implementation can be used to test the main features of the auto differentiation software.
