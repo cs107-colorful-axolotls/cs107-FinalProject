@@ -34,8 +34,8 @@ TODO: add once package is on PyPi
 ### Demo
 Instantiating AD Objects and checking that they work:
 ```python
-from fnode import Fnode
-import elem_fn as elem
+from forward_mode.fnode import Fnode
+import forward_mode.elem_fn as elem
 import numpy as np
 
 v_0 = Fnode(3.0, 1.0)
@@ -79,8 +79,21 @@ cs107-FinalProject/
   * The `forward_mode` module contains the objects and functions necessary to do forward mode automatic differentiation on real and vector valued functions 
   * The `reverse_mode` module contains the objects and functions necessary to do reverse mode automatic differentiation on real functions
 
-## Implementation Details 
+## Implementation Details
 ### Core Classes 
+  * Fnode class is the forward mode node object. 
+    *  Parameters
+        val : list/int/float
+            The value of the node
+        deriv : list/int/float
+            The first derivative of the node
+        var_name : string
+            The name of the variable
+  * Rnode class is the reverse mode node object.
+    * Parameters
+        val : int/float
+            The value of the node
+  * Vector_Fn
 ### Elementary functions
 
 
@@ -97,14 +110,27 @@ Consider same function used above: ![equation](https://latex.codecogs.com/png.la
 Recall it can be represented with the following computational graph 
 <img src="figures/m1_1.png"/>
 
-First, a sweep is done in the forward direction of the computational graph to calculate the values of each node. (Right table below)
-Then, a second sweep is done in the backward direction of the graph. (Left table below) Using the chain rule, and taking partial derivatives, the derivative value at each node can be deduced. 
-The only subtly occurs when the derivative can be calculated coming through two nodes. For example, V0 is involved coming from the V3 and V1 node. In this case the two values of the derivative need to be added to together (See second row in the left table.)
+First, a sweep is done in the forward direction of the computational graph to calculate the values of each node. (Left table below)
+Then, a second sweep is done in the backward direction of the graph. (Right table below) Using the chain rule, and taking partial derivatives, the derivative value at each node can be deduced. 
+The only subtly occurs when the derivative can be calculated coming through two nodes. For example, V0 is involved coming from the V3 and V1 node. In this case the two values of the derivative need to be added to together (See second row in the right table.)
 Again, note that reverse mode correctly calculates the derivative. 
 
 <img src="figures/reverse_mode.png"/>
 
 ### Demo 
+
+```python
+from reverse_mode.rnode import Rnode
+import reverse_mode.elem_fn as elem
+import numpy as np
+
+v_0 = Rnode(3.0)
+v_1 = elem.sin(3 * v_0 + 1)
+v_1.grad_value = 1
+
+assert v_1.val == np.sin(10.0)
+assert v_0.grad() == 3 * np.cos(10.0)
+```
 
 ## Broader Impact and Inclusivity Statement
 
