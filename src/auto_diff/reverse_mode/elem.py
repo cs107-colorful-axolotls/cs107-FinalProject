@@ -215,7 +215,7 @@ def exp(x):
        x: Value or Rnode at which the exp function is to be evaluated
 
        Returns:
-       For Rnodes, a new Rnode object with exp computed for the value 
+       For Rnodes, a new Rnode object with exp computed for the value
        For values, the exp function evaluated at that value
        """
     z = Rnode(np.exp(x._val))

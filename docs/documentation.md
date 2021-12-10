@@ -47,11 +47,12 @@ from auto_diff.forward_mode.fnode import Fnode
 import auto_diff.forward_mode.elem as elem
 import numpy as np
 
-v_0 = Fnode(3.0, 1.0)
-v_1 = elem.sin(3 * v_0 + 1)
-
-assert v_1.val == np.sin(10.0)
-assert v_1.deriv == 3 * np.cos(10.0)
+v_0 = Fnode(2, 3, 'v_0')
+v_1 = Fnode(5, 10, 'v_1')
+res = v_0 * v_1
+assert res.val == 10
+assert res.deriv['v_0'] == 15
+assert res.deriv['v_1'] == 20
 ```
 
 ## Organization 
