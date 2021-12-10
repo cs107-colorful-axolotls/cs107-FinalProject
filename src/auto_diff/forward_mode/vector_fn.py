@@ -2,15 +2,31 @@ import numpy as np
 
 class Vector_Fn:
     def __init__(self, function):
+        """Constructor for the Vector_Fn class that enables vector valued forward mode automatic differentiation
+
+        Parameters
+        ==========
+        function_list : list
+            list of functions for each variable
+        """
         self._function_list = function
 
     def val_by_var(self):
+        '''
+        Returns list of values
+        '''
         return [function.val for function in self._function_list]
 
     def deriv_by_var(self):
+        '''
+        Returns list of derivatives
+        '''
         return [function.deriv for function in self._function_list]
 
     def get_vals(self):
+        '''
+        Returns an np array of values
+        '''
         return np.array(self.val_by_var()).T
 
     def get_deriv(self):
