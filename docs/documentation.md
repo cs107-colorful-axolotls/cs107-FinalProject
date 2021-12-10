@@ -29,13 +29,22 @@ Note that the value highlighted in yellow is exactly ![equation](https://latex.c
 Use documentation to get code explanations and code examples to quickly get started.
 
 #### Installation via PyPi
-TODO: add once package is on PyPi
+Install from PyPi's test server using pip. 
+
+```$ pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple auto-diff-colorful-axolotls```
+
+Following installation, the package can be imported into your Python files. For example,
+
+```python
+from auto_diff.forward_mode.fnode import Fnode
+import auto_diff.forward_mode.elem as elem
+```
 
 ### Demo
 Instantiating AD Objects and checking that they work:
 ```python
-from forward_mode.fnode import Fnode
-import forward_mode.elem_fn as elem
+from auto_diff.forward_mode.fnode import Fnode
+import auto_diff.forward_mode.elem as elem
 import numpy as np
 
 v_0 = Fnode(3.0, 1.0)
@@ -52,18 +61,22 @@ assert v_1.deriv == 3 * np.cos(10.0)
 cs107-FinalProject/
     docs/
     src/
-      forward_mode/
-        elem.py
-        fnode.py
-        vector_fn.py
-      reverse_mode/
-        elem.py
-        rnode.py
+      auto_diff/
+          forward_mode/
+            __init__.py
+            elem.py
+            fnode.py
+            vector_fn.py
+          reverse_mode/
+            __init__.py
+            elem.py
+            rnode.py
+      __init__.py
     tests/
 ```
 * The `docs/` subdirectory contains documentation about using the library.
 
-* The `src/` contains further subdirectories containing source code for automatic differentiation.
+* `src/auto_diff/` contains further subdirectories containing source code for automatic differentiation.
   * `forward_mode/` contains source code for forward mode for automatic differentiation
   * `reverse_mode/` contains source code for forward mode for automatic differentiation
     
@@ -187,8 +200,8 @@ Again, note that reverse mode correctly calculates the derivative.
 ### Demo 
 
 ```python
-from reverse_mode.rnode import Rnode
-import reverse_mode.elem_fn as elem
+from auto_diff.reverse_mode.rnode import Rnode
+import auto_diff.reverse_mode.elem as elem
 import numpy as np
 
 v_0 = Rnode(3.0)
