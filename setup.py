@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="auto_diff",
+    name="adfihenryi",
     version="1.0.0",
     description="A package for forward and reverse automatic differentiation",
     long_description=long_description,
