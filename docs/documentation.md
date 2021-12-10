@@ -92,10 +92,11 @@ Our extension is reverse mode automatic differentiation. We implemented a new cl
 
 Reverse mode automatic differentiation is more efficient than forward mode. For functions that go from n dimensions to m dimensions where m < n reverse mode only requires m sweeps but forward mode requires n. 
 
-Consider same function used in previous explanations ![equation](https://latex.codecogs.com/png.latex?f=\sin{(x^2)}+x). We can construct the following graph structure to represent the steps needed to evaluate this derivative.
+Consider same function used above: ![equation](https://latex.codecogs.com/png.latex?f=\sin{(x^2)}+x). 
 Recall it can be represented with the following computational graph 
 <img src="figures/m1_1.png"/>
 
+<img src="figures/reverse_mode.png"/>
 ### Demo 
 
 ## Broader Impact and Inclusivity Statement
