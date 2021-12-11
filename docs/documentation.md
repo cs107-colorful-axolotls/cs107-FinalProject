@@ -159,6 +159,8 @@ The following elementary functions are implemented for both forward and reverse 
     * Natrual log function (Log function with base e)
 * sqrt 
     * Square root function
+* Logistic
+    * Logistic function
 
 The following is an example of the tan function for forward mode: 
 ```python
