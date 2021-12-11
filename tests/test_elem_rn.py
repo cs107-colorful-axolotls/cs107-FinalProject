@@ -1,6 +1,6 @@
 import pytest
-from src.reverse_mode.rnode import Rnode
-import src.reverse_mode.elem as elem
+from src.auto_diff.reverse_mode.rnode import Rnode
+import src.auto_diff.reverse_mode.elem as elem
 import numpy as np
 
 def test_ln():

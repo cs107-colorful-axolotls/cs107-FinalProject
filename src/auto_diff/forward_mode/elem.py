@@ -1,4 +1,4 @@
-from src.forward_mode.fnode import Fnode
+from src.auto_diff.forward_mode.fnode import Fnode
 import numpy as np
 
 """Elementary functions for forward mode"""
@@ -288,4 +288,28 @@ def exp(x):
     deriv_dict = {}
     for var in x.get_vars():
         deriv_dict[var] = x.deriv[var] * np.exp(x.val)
+    return Fnode(value, deriv_dict, x.var_name)
+
+
+def logistic_fn(x, x0, L, k):
+    """
+    The logistic function given by the equation f(x) = L / (1 + exp(-k(x-x0))
+
+    Parameters:
+        x: Value or Fnode to evaulate the function at
+        x0: The x value of the sigmoid's midpoint
+        L: the curve's max value
+        k: logistic growh rate
+
+    Returns:
+        For Fnodes, a new Fnode object with logistic function computed for the value and derivative
+        For values, the logistic function evaluated at that value
+    """
+    if isinstance(x, (int, float)):
+        return L / (1 + np.exp(-k*(x -x0)))
+
+    value =  L / (1 + np.exp(-k*(x.val -x0)))
+    deriv_dict = {}
+    for var in x.get_vars():
+        deriv_dict[var] = x.deriv[var] * np.exp(x.val) / (1+np.exp(x.val))**2
     return Fnode(value, deriv_dict, x.var_name)
