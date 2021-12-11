@@ -143,6 +143,13 @@ def test_exp():
     assert v_1.deriv['x'] == np.exp(3)
     assert elem.exp(3) == np.exp(3)
 
+def test_logistic():
+    v_0 = Fnode(3.0, 1.0, 'x')
+    v_1 = elem.logistic_fn(v_0, 1, 1, 1)
+
+    assert v_1.val == 1 / (1 + np.exp(-1(3 -1)))
+    assert v_1.deriv['x'] ==  1 * np.exp(3) / (1+np.exp(3))**2
+
 if __name__ == '__main__':
     test_cos()
     test_arccos()
@@ -158,3 +165,4 @@ if __name__ == '__main__':
     test_sqrt()
     test_linear()
     test_exp()
+    test_logistic()
