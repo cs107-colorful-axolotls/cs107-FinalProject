@@ -1,7 +1,7 @@
 import pytest
-from src.forward_mode.fnode import Fnode
-import src.forward_mode.elem as elem
-from src.forward_mode.vector_fn import Vector_Fn
+from src.auto_diff.forward_mode.fnode import Fnode
+import src.auto_diff.forward_mode.elem as elem
+from src.auto_diff.forward_mode.vector_fn import Vector_Fn
 import numpy as np
 
 def test_vector():

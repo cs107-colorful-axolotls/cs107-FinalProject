@@ -1,4 +1,4 @@
-from src.reverse_mode.rnode import Rnode
+from src.auto_diff.reverse_mode.rnode import Rnode
 import numpy as np
 
 """Elementary functions for reverse mode"""

@@ -1,4 +1,4 @@
-from src.forward_mode.fnode import Fnode
+from src.auto_diff.forward_mode.fnode import Fnode
 import numpy as np
 
 """Elementary functions for forward mode"""
@@ -306,10 +306,10 @@ def logistic_fn(x, x0, L, k):
         For values, the logistic function evaluated at that value
     """
     if isinstance(x, (int, float)):
-        return L / (1 + np.exp(-k(x -x0)))
+        return L / (1 + np.exp(-k*(x -x0)))
 
-    value =  L / (1 + np.exp(-k(x.val -x0)))
+    value =  L / (1 + np.exp(-k*(x.val -x0)))
     deriv_dict = {}
     for var in x.get_vars():
-        deriv_dict[var] = x.deriv[var] * np.exp(x) / (1+np.exp(x))**2
+        deriv_dict[var] = x.deriv[var] * np.exp(x.val) / (1+np.exp(x.val))**2
     return Fnode(value, deriv_dict, x.var_name)

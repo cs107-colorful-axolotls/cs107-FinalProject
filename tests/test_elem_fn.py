@@ -1,6 +1,6 @@
 import pytest
-from src.forward_mode.fnode import Fnode
-import src.forward_mode.elem as elem
+from src.auto_diff.forward_mode.fnode import Fnode
+import src.auto_diff.forward_mode.elem as elem
 import numpy as np
 
 def test_ln():
@@ -147,7 +147,7 @@ def test_logistic():
     v_0 = Fnode(3.0, 1.0, 'x')
     v_1 = elem.logistic_fn(v_0, 1, 1, 1)
 
-    assert v_1.val == 1 / (1 + np.exp(-1(3 -1)))
+    assert v_1.val == 1 / (1 + np.exp(-1*(3 -1)))
     assert v_1.deriv['x'] ==  1 * np.exp(3) / (1+np.exp(3))**2
 
 if __name__ == '__main__':

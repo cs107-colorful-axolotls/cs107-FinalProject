@@ -1,5 +1,5 @@
 import pytest
-from src.reverse_mode.rnode import Rnode
+from src.auto_diff.reverse_mode.rnode import Rnode
 import numpy as np
 
 def test_pow():

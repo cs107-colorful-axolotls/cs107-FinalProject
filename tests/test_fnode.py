@@ -1,6 +1,5 @@
-from typing import Type
 import pytest
-from src.forward_mode.fnode import Fnode
+from src.auto_diff.forward_mode.fnode import Fnode
 import numpy as np
 
 def test_mul_const():
